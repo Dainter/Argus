@@ -1,0 +1,13 @@
+下面的工作：
+（目的在于通过充分的可视化的数据，展示现在流程的痛点，和与之相对应的我们系统的优点、亮点。从多个方面和层次来convince。）
+?	拿到过往所有escalation解决的时间，（defect），分析，可视化数据，计算平均花费的时间
+
+?	统计为了解决escalation花费的沟通成本、CSE派遣的数据（成本、年平均的次数）
+
+?	concept，绘制一个workflow的对比，标注数据、benefit
+
+内部：
+?	数字化design图
+?	工程化（split work、intern work（评估intern能力水平）、计算resource、编排日程表、工作优先级）
+?	技术可行性分析、技术预研
+?	Demo：以log为起点，使用前沿技术，优化展示
