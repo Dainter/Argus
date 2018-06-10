@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using GraphDB;
+using GraphDB.Contract;
+using GraphDB.Tool;
 
 namespace Argus
 {
@@ -13,8 +15,13 @@ namespace Argus
         {
             InitializeComponent();
             gdb = new GraphDatabase("Argus");
+            ConfigWindow configWindow = new ConfigWindow("Semantic.xml");
+            configWindow.ShowDialog();
         }
 
-        
+        private void CreateGraph(string name)
+        {
+            
+        }
     }
 }

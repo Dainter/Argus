@@ -1,10 +1,11 @@
 ﻿<Settings>
   <SerialAssemblyList NodeName="SerialAssemblyList">
+    <string>Argus.exe</string>
     <string>GraphDB.dll</string>
+    <string>GraphDB.Constructor.Semantic.dll</string>
   </SerialAssemblyList>
   <GraphList NodeName="GraphList">
     <string>\Argus\Runtime.xml</string>
-    <string>\Argus\Archieve.xml</string>
-    <string>\Argus\Logs.xml</string>
+    <string>\Argus\Archive.xml</string>
   </GraphList>
 </Settings>

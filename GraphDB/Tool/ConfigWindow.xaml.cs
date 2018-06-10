@@ -60,7 +60,16 @@ namespace GraphDB.Tool
             myGraphRenderer = new GraphRenderer();
             ChangeStyle("默认样式");
             StatusUpdateTimer_Init();
-            myGdb = new Graph(myDataBasePath);
+            try
+            {
+                myGdb = new Graph("Database", myDataBasePath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowStatus("Open Failed.");
+                return;
+            }
             FillNodeList();
             myIsModified = false;
             myIsDbAvailable = true;
@@ -147,18 +156,20 @@ namespace GraphDB.Tool
         //新建命令执行函数
         private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ErrorCode err = ErrorCode.NoError;
-
             if (myIsDbAvailable)
             {
                 var choice = MessageBox.Show("Save current graph database to file？", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                 if (choice == MessageBoxResult.Yes)
                 {
                     //保存网络
-                    myGdb.SaveDataBase(out err); 
-                    if (err != ErrorCode.NoError)
+                    try
                     {
-                        ShowStatus("Save Failed");
+                        myGdb.SaveDataBase();
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        ShowStatus("Save Failed.");
                         return;
                     }
                 }
@@ -185,13 +196,19 @@ namespace GraphDB.Tool
             }
             Cursor = Cursors.Wait;
             var strPath = savedialog.FileName;
-            myGdb = new Graph(strPath);
-            Cursor = Cursors.Arrow;
-            if (err != ErrorCode.NoError)
+            try
             {
-                MessageBox.Show("Can not open file.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                myGdb = new Graph(strPath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 ShowStatus("Create Failed.");
                 return;
+            }
+            finally
+            {
+                Cursor = Cursors.Arrow;
             }
             ShowStatus("Create Success.");
             myIsDbAvailable = true;
@@ -200,7 +217,6 @@ namespace GraphDB.Tool
         //打开文件命令执行函数
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ErrorCode err = ErrorCode.NoError;
 
             if (myIsDbAvailable)
             {
@@ -208,9 +224,13 @@ namespace GraphDB.Tool
                 if (choice == MessageBoxResult.Yes)
                 {
                     //保存网络
-                    myGdb.SaveDataBase(out err);
-                    if (err != ErrorCode.NoError)
+                    try
                     {
+                        myGdb.SaveDataBase();
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                         ShowStatus("Save Failed.");
                         return;
                     }
@@ -238,13 +258,19 @@ namespace GraphDB.Tool
             }
             Cursor = Cursors.Wait;
             var strPath = opendialog.FileName;
-            myGdb = new Graph(strPath);
-            Cursor = Cursors.Arrow;
-            if (err != ErrorCode.NoError)
+            try
             {
-                MessageBox.Show("Can not open file.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                myGdb = new Graph(strPath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 ShowStatus("Open Failed.");
                 return;
+            }
+            finally
+            {
+                Cursor = Cursors.Arrow;
             }
             FillNodeList();
             ShowStatus("Open Success.");
@@ -256,9 +282,13 @@ namespace GraphDB.Tool
         {
 
             //保存网络
-            myGdb.SaveDataBase(out ErrorCode err);
-            if (err != ErrorCode.NoError)
+            try
             {
+                myGdb.SaveDataBase();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 ShowStatus("Save Failed.");
                 return;
             }
@@ -286,13 +316,19 @@ namespace GraphDB.Tool
             Cursor = Cursors.Wait;
             var strPath = savedialog.FileName;
             //切换IO句柄中的目标地址,并保存
-            myGdb.SaveAsDataBase(strPath, out ErrorCode err);
-            Cursor = Cursors.Arrow;
-            if (err != ErrorCode.NoError)
+            try
             {
-                MessageBox.Show("Can not save file.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                myGdb.SaveAsDataBase(strPath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 ShowStatus("Save As Failed.");
                 return;
+            }
+            finally
+            {
+                Cursor = Cursors.Arrow;
             }
             ShowStatus("Save As Success.");
         }
@@ -324,9 +360,13 @@ namespace GraphDB.Tool
                 if (choice == MessageBoxResult.Yes)
                 {
                     //保存网络
-                    myGdb.SaveDataBase(out ErrorCode err);
-                    if (err != ErrorCode.NoError)
+                    try
                     {
+                        myGdb.SaveDataBase();
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                         ShowStatus("Save Failed.");
                         return;
                     }
@@ -362,9 +402,13 @@ namespace GraphDB.Tool
                 if (choice == MessageBoxResult.Yes)
                 {
                     //保存网络
-                    myGdb.SaveDataBase(out ErrorCode err);
-                    if (err != ErrorCode.NoError)
+                    try
                     {
+                        myGdb.SaveDataBase();
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                         ShowStatus("Save Failed.");
                         return;
                     }
@@ -452,33 +496,41 @@ namespace GraphDB.Tool
 
             var drawNodes = new List<Node>();
             var neibourNodes = new List<Node>();
-            drawNodes.Add(curSelNode);
-            mySubGraph = new Graph("SubGraph");
-            mySubGraph.AddNode(new Node(curSelNode), out ErrorCode err);
-            foreach (Edge edge in curSelNode.OutBound)
+            try
             {
-                neibourNodes.Add(edge.To);
-                drawNodes.Add(edge.To);
-                mySubGraph.AddNode(new Node(edge.To), out err);
-                Edge newEdge = new Edge(edge.Attribute);
-                mySubGraph.AddEdgeByGuid(curSelNode.Guid, edge.To.Guid, newEdge, out err);
-            }
-            foreach (Node node in neibourNodes)
-            {
-                foreach (Edge edge in node.InBound)
+                drawNodes.Add(curSelNode);
+                mySubGraph = new Graph("SubGraph");
+                mySubGraph.AddNode(new Node(curSelNode));
+                foreach (Edge edge in curSelNode.OutBound)
                 {
-                    if (drawNodes.IndexOf(edge.From) < 0)
+                    neibourNodes.Add(edge.To);
+                    drawNodes.Add(edge.To);
+                    mySubGraph.AddNode(new Node(edge.To));
+                    Edge newEdge = new Edge(edge.Attribute);
+                    mySubGraph.AddEdgeByGuid(curSelNode.Guid, edge.To.Guid, newEdge);
+                }
+                foreach (Node node in neibourNodes)
+                {
+                    foreach (Edge edge in node.InBound)
                     {
-                        drawNodes.Add(edge.From);
-                        mySubGraph.AddNode(new Node(edge.From), out err);
-                    }
-                    if ((edge.From.Name != curSelNode.Name)
-                        && (neibourNodes.IndexOf(edge.From) < 0))
-                    {
-                        Edge newEdge = new Edge(edge.Attribute);
-                        mySubGraph.AddEdgeByGuid(edge.From.Guid, edge.To.Guid, newEdge, out err);
+                        if (drawNodes.IndexOf(edge.From) < 0)
+                        {
+                            drawNodes.Add(edge.From);
+                            mySubGraph.AddNode(new Node(edge.From));
+                        }
+                        if ((edge.From.Name != curSelNode.Name)
+                            && (neibourNodes.IndexOf(edge.From) < 0))
+                        {
+                            Edge newEdge = new Edge(edge.Attribute);
+                            mySubGraph.AddEdgeByGuid(edge.From.Guid, edge.To.Guid, newEdge);
+                        }
                     }
                 }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowStatus("Error Occured.");
             }
         }
 
@@ -831,10 +883,14 @@ namespace GraphDB.Tool
         //移除节点命令执行函数
         private void RemoveNodeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            myGdb.RemoveNode(RemoveNodeName.Text, out ErrorCode err);
-            if (err != ErrorCode.NoError)
+            try
             {
-                ShowStatus("Remove Node Failed, Error:" + err);
+                myGdb.RemoveNode(RemoveNodeName.Text);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowStatus("Remove Node Failed.");
                 return;
             }
             ShowStatus("Remove Node Success.");
@@ -870,21 +926,14 @@ namespace GraphDB.Tool
             }
             string edgeValue = EdgeValueBox.Text.Trim();
             Edge newEdge = new Edge( edgeAttrib, edgeValue );
-            myGdb.AddEdge( fromName, toName, newEdge, out ErrorCode err);
-            if (err != ErrorCode.NoError)
+            try
             {
-                switch (err)
-                {
-                    case ErrorCode.NodeNotExists:
-                        ShowStatus("Add Edge Failed, End Node not exists.");
-                        break;
-                    case ErrorCode.EdgeExists:
-                        ShowStatus("Add Edge Failed, Edge already exists.");
-                        break;
-                    default:
-                        ShowStatus("Add Edge Failed, error code:" + err);
-                        break;
-                }
+                myGdb.AddEdge(fromName, toName, newEdge);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowStatus("Add Edge Failed.");
                 return;
             }
             GraphEdgeUpdate();
@@ -951,21 +1000,14 @@ namespace GraphDB.Tool
             }
             string edgeAttrib = EdgeAttributeBox.Text.Trim();
 
-            myGdb.RemoveEdge(fromName, toName, edgeAttrib, out ErrorCode err);
-            if (err != ErrorCode.NoError)
+            try
             {
-                switch (err)
-                {
-                    case ErrorCode.NodeNotExists:
-                        ShowStatus("Remove Edge failed, Start Node or End Node not exists.");
-                        break;
-                    case ErrorCode.EdgeNotExists:
-                        ShowStatus("Remove Edge failed, Edge not exists.");
-                        break;
-                    default:
-                        ShowStatus("Remove Edge failed, error code:" + err);
-                        break;
-                }
+                myGdb.RemoveEdge(fromName, toName, edgeAttrib);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowStatus("Remove Edge Failed.");
                 return;
             }
             ShowStatus("Remove Edge Success.");

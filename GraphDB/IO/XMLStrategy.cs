@@ -1,8 +1,8 @@
 
 using System;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Xml;
-using GraphDB.Contract.Enum;
 using GraphDB.Contract.Serial;
 
 namespace GraphDB.IO
@@ -23,7 +23,7 @@ namespace GraphDB.IO
         }
 
         //XMLStrategy算法读取函数
-        public XmlElement ReadFile(out ErrorCode err)
+        public XmlElement ReadFile()
         {
             XmlDocument doc = new XmlDocument();
 
@@ -35,17 +35,15 @@ namespace GraphDB.IO
             }
             catch (Exception)
             {
-                err = ErrorCode.OpenFileFailed;
-                return null;
+                throw new SerializationException("Failed to load file.");
             }
             //创建网络
             XmlElement graph =(XmlElement)doc.FirstChild;
-            err = ErrorCode.NoError;
             return graph;
         }
 
         //XMLStrategy算法保存函数
-        public void SaveFile(XmlDocument doc, out ErrorCode err)
+        public void SaveFile(XmlDocument doc)
         {
             try
             {
@@ -55,10 +53,8 @@ namespace GraphDB.IO
             }
             catch (Exception)
             {
-                err = ErrorCode.SaveFileFailed;
-                return;
+                throw new SerializationException("Failed to save file.");
             }
-            err = ErrorCode.NoError;
         }
     }
 }

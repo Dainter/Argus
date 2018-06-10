@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utility\Configuration.cs" />
-    <Compile Include="GraphDatabase.cs" />
+    <Compile Include="Contract\GraphDatabase.cs" />
     <Compile Include="Contract\Enum\EdgeDirection.cs" />
     <Compile Include="Contract\Enum\ModifyOperation.cs" />
     <Compile Include="Contract\Serial\IIoStrategy.cs" />
@@ -89,10 +89,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contract\Core\" />
-    <Folder Include="Contract\DataType\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Tool\ConfigWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
