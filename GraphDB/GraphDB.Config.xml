@@ -4,8 +4,4 @@
     <string>GraphDB.dll</string>
     <string>GraphDB.Constructor.Semantic.dll</string>
   </SerialAssemblyList>
-  <GraphList NodeName="GraphList">
-    <string>\Argus\Runtime.xml</string>
-    <string>\Argus\Archive.xml</string>
-  </GraphList>
 </Settings>

@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utility\Configuration.cs" />
-    <Compile Include="Contract\GraphDatabase.cs" />
     <Compile Include="Contract\Enum\EdgeDirection.cs" />
     <Compile Include="Contract\Enum\ModifyOperation.cs" />
     <Compile Include="Contract\Serial\IIoStrategy.cs" />

@@ -10,11 +10,11 @@ namespace Argus
     /// </summary>
     public partial class MainWindow : Window
     {
-        GraphDatabase gdb;
+
         public MainWindow()
         {
             InitializeComponent();
-            gdb = new GraphDatabase("Argus");
+
             ConfigWindow configWindow = new ConfigWindow("Semantic.xml");
             configWindow.ShowDialog();
         }

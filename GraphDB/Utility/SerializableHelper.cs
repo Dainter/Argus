@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Xml;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
-using GraphDB.IO;
-using GraphDB.Properties;
+
 
 namespace GraphDB.Utility
 {
@@ -67,40 +64,15 @@ namespace GraphDB.Utility
 
         private static Assembly GetAssembly( string typeName )
         {
-            string path = Assembly.GetExecutingAssembly().Location;
-            string asmName = Path.GetFileName( path );
-            List<string> assemList = GetConfiguration("SerialAssemblyList");
-            foreach ( string curItem in assemList)
+            var assemList = Configuration.GetAssemblies();
+            foreach ( var curItem in assemList)
             {
-                Assembly asm = Assembly.LoadFile(path.Replace( asmName, curItem ));
-                if( asm.ExportedTypes.Any( x => x.FullName == typeName ) )
+                if(curItem.ExportedTypes.Any( x => x.FullName == typeName ) )
                 {
-                    return asm;
+                    return curItem;
                 }
             }
             throw new FileLoadException("No valid assembly has been found.");
-        }
-
-        internal static List<string> GetConfiguration(string nodeName)
-        {
-            IIoStrategy xmlReader = new XMLStrategy(Settings.Default.GraphDBConfigPath);
-            XmlElement root;
-            try
-            {
-                root = xmlReader.ReadFile();
-            }
-            catch (SerializationException)
-            {
-                return new List<string>();
-            }
-            
-            List<string> assemList = new List<string>();
-            XmlElement setting = root.GetNode(nodeName);
-            foreach (XmlNode curItem in setting.ChildNodes)
-            {
-                assemList.Add(curItem.InnerText);
-            }
-            return assemList;
         }
 
     }

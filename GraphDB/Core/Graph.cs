@@ -25,7 +25,7 @@ namespace GraphDB.Core
 
         public List<Edge> Edges => myEdgeList;
 
-        public Graph( string name )
+        public Graph(string name)
         {
             Name = name;
             myNodeList = new Dictionary<string, Node>();
