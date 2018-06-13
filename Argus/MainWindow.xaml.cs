@@ -1,7 +1,12 @@
 ﻿using System.Windows;
+using Argus.Backend;
+using Argus.Backend.Model.Nodes;
+using Argus.Backend.Utility;
 using GraphDB;
 using GraphDB.Contract;
+using GraphDB.Core;
 using GraphDB.Tool;
+
 
 namespace Argus
 {
@@ -10,18 +15,18 @@ namespace Argus
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
 
-            ConfigWindow configWindow = new ConfigWindow("Semantic.xml");
+            var myGraphConstructor = new GraphConstructor(Properties.Settings.Default.WorkflowDBPath);
+
+            myGraphConstructor.CreateGraph();
+
+            ConfigWindow configWindow = new ConfigWindow(Properties.Settings.Default.WorkflowDBPath);
             configWindow.ShowDialog();
         }
 
-        private void CreateGraph(string name)
-        {
-            
-        }
+        
     }
 }

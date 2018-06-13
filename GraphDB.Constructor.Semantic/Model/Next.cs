@@ -12,8 +12,7 @@ namespace GraphDB.Constructor.Semantic.Model
 
         public void AddWeight()
         {
-            int value;
-            if( !int.TryParse( Value, out value ) )
+            if( !int.TryParse( Value, out var value ) )
             {
                 Value = "1";
             }

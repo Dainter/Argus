@@ -1,6 +1,7 @@
 ﻿<Settings>
   <SerialAssemblyList NodeName="SerialAssemblyList">
     <string>Argus.exe</string>
+    <string>Argus.Backend.dll</string>
     <string>GraphDB.dll</string>
     <string>GraphDB.Constructor.Semantic.dll</string>
   </SerialAssemblyList>
