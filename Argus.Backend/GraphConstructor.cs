@@ -1,4 +1,6 @@
-﻿using Argus.Backend.Model.Edges;
+﻿using System.Collections.Generic;
+using Argus.Backend.Business;
+using Argus.Backend.Model.Edges;
 using Argus.Backend.Model.Nodes;
 using Argus.Backend.Utility;
 using GraphDB.Core;
@@ -18,7 +20,8 @@ namespace Argus.Backend
 
         public void CreateGraph()
         {
-
+            BuildCSEGroup();
+            //BuildUserGroup();
             //BuildProcedure();
 
             myWorkflowGraph.SaveDataBase();
@@ -27,103 +30,55 @@ namespace Argus.Backend
 
         private void BuildProcedure()
         {
-            Node procedure = new Procedure("Maintainance", "Maintainance procedure of the Siemens CT.");
+            List<ProcedureStep> procedureSteps = new List<ProcedureStep>();
+
+            Procedure procedure = new Procedure("Maintainance", "Maintainance procedure of the Siemens CT.");
             myWorkflowGraph.AddNode(procedure);
 
-            Node step1 = new ProcedureStep("Submit", "The CSE submit a maintain ticket.");
-            myWorkflowGraph.AddNode(step1);
+            procedureSteps.Add(new ProcedureStep("Submit", "The CSE submit a maintain ticket."));
+            procedureSteps.Add(new ProcedureStep("Ticket Check", "The Interface check the ticket."));
+            procedureSteps.Add(new ProcedureStep("Pre-Analysis", "The SE pre-analysis the issue and assign to RP."));
+            procedureSteps.Add(new ProcedureStep("Solve", "The RP solve the issue."));
+            procedureSteps.Add(new ProcedureStep("Evaluate", "The SE evaluate the solution."));
+            procedureSteps.Add(new ProcedureStep("Regression", "The test center regression the soultion."));
+            procedureSteps.Add(new ProcedureStep("Update", "The CSE provide a patch to fix the issue."));
 
-            Node step2 = new ProcedureStep("Ticket Check", "The Interface check the ticket.");
-            myWorkflowGraph.AddNode(step2);
+            foreach (var curItem in procedureSteps)
+            {
+                myWorkflowGraph.AddNode(curItem);
+            }
 
-            Node step3 = new ProcedureStep("Pre-Analysis", "The SE pre-analysis the issue and assign to RP.");
-            myWorkflowGraph.AddNode(step3);
-
-            Node step4 = new ProcedureStep("Solve", "The RP solve the issue.");
-            myWorkflowGraph.AddNode(step4);
-
-            Node step5 = new ProcedureStep("Evaluate", "The SE evaluate the solution.");
-            myWorkflowGraph.AddNode(step5);
-
-            Node step6 = new ProcedureStep("Regression", "The test center regression the soultion.");
-            myWorkflowGraph.AddNode(step6);
-
-            Node step7 = new ProcedureStep("Update", "The CSE provide a patch to fix the issue.");
-            myWorkflowGraph.AddNode(step7);
-
-            Edge newEdge = new Include();
-            myWorkflowGraph.AddEdge(procedure, step1, newEdge);
-            newEdge = new BelongTo();
-            myWorkflowGraph.AddEdge(step1, procedure, newEdge);
-
-            newEdge = new Include();
-            myWorkflowGraph.AddEdge(procedure, step2, newEdge);
-            newEdge = new BelongTo();
-            myWorkflowGraph.AddEdge(step2, procedure, newEdge);
-
-            newEdge = new Include();
-            myWorkflowGraph.AddEdge(procedure, step3, newEdge);
-            newEdge = new BelongTo();
-            myWorkflowGraph.AddEdge(step3, procedure, newEdge);
-
-            newEdge = new Include();
-            myWorkflowGraph.AddEdge(procedure, step4, newEdge);
-            newEdge = new BelongTo();
-            myWorkflowGraph.AddEdge(step4, procedure, newEdge);
-
-            newEdge = new Include();
-            myWorkflowGraph.AddEdge(procedure, step5, newEdge);
-            newEdge = new BelongTo();
-            myWorkflowGraph.AddEdge(step5, procedure, newEdge);
-
-            newEdge = new Include();
-            myWorkflowGraph.AddEdge(procedure, step6, newEdge);
-            newEdge = new BelongTo();
-            myWorkflowGraph.AddEdge(step6, procedure, newEdge);
-
-            newEdge = new Include();
-            myWorkflowGraph.AddEdge(procedure, step7, newEdge);
-            newEdge = new BelongTo();
-            myWorkflowGraph.AddEdge(step7, procedure, newEdge);
-
-            newEdge = new Next();
-            myWorkflowGraph.AddEdge(step1, step2, newEdge);
-            newEdge = new Previous();
-            myWorkflowGraph.AddEdge(step2, step1, newEdge);
-
-            newEdge = new Next();
-            myWorkflowGraph.AddEdge(step2, step3, newEdge);
-            newEdge = new Previous();
-            myWorkflowGraph.AddEdge(step3, step2, newEdge);
-
-            newEdge = new Next();
-            myWorkflowGraph.AddEdge(step3, step4, newEdge);
-            newEdge = new Previous();
-            myWorkflowGraph.AddEdge(step4, step3, newEdge);
-
-            newEdge = new Next();
-            myWorkflowGraph.AddEdge(step4, step5, newEdge);
-            newEdge = new Previous();
-            myWorkflowGraph.AddEdge(step5, step4, newEdge);
-
-            newEdge = new Next();
-            myWorkflowGraph.AddEdge(step5, step6, newEdge);
-            newEdge = new Previous();
-            myWorkflowGraph.AddEdge(step6, step5, newEdge);
-
-            newEdge = new Next();
-            myWorkflowGraph.AddEdge(step6, step7, newEdge);
-            newEdge = new Previous();
-            myWorkflowGraph.AddEdge(step7, step6, newEdge);
+            ProcedureConstructor.ConstructProcedure(myWorkflowGraph, procedure, procedureSteps);
         }
 
-        private void BuildUser()
+        private void BuildUserGroup()
         {
-            string info = "Dai, Xiao Gang (CT DD DS AA CN DI NJ)";
-            StringHelper.ExtractUserInfo(info, out var name, out var department, out _);
-            Node newNode = new User(name, department);
+            List<UserGroup> userGroups = new List<UserGroup>();
+            userGroups.Add(BuildCSEGroup());
 
-            myWorkflowGraph.AddNode(newNode);
+
+        }
+
+        private UserGroup BuildCSEGroup()
+        {
+            List<User> users = new List<User>();
+            
+            User cseLeader = new User("Alice ", "CSE Department");
+            myWorkflowGraph.AddNode(cseLeader);
+
+            users.Add(new User("Bob ", "CSE Department"));
+            users.Add(new User("Clare ", "CSE Department"));
+
+            foreach (var curItem in users)
+            {
+                myWorkflowGraph.AddNode(curItem);
+            }
+
+            UserGroup cseGroup = new UserGroup("CSE", "Executive", "CSE Team" );
+            myWorkflowGraph.AddNode(cseGroup);
+
+            UserGroupConstructor.ConstructUserGroup(myWorkflowGraph, cseGroup, cseLeader, users);
+            return cseGroup;
         }
     }
 }

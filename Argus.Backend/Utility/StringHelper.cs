@@ -2,7 +2,7 @@
 
 namespace Argus.Backend.Utility
 {
-    public class StringHelper
+    public static class StringHelper
     {
         public static void ExtractUserInfo(string sFullName, out string sName, out string sDepartment, out bool isExt )
         {

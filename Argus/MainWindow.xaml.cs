@@ -1,10 +1,5 @@
 ﻿using System.Windows;
 using Argus.Backend;
-using Argus.Backend.Model.Nodes;
-using Argus.Backend.Utility;
-using GraphDB;
-using GraphDB.Contract;
-using GraphDB.Core;
 using GraphDB.Tool;
 
 
