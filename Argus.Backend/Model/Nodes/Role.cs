@@ -7,23 +7,23 @@ using GraphDB.Utility;
 
 namespace Argus.Backend.Model.Nodes
 {
-    public class UserGroup : Node
+    public class Role : Node
     {
         public string Type => GetType().Name;
 
         [XmlSerializable]
-        public string GroupType { get; private set; }
+        public int Level { get; set; }
 
         [XmlSerializable]
         public string Description { get; set; }
 
-        public UserGroup(string name, string type, string description) : base(name)
+        public Role(string name, int level, string description) : base(name)
         {
-            GroupType = type;
+            Level = level;
             Description = description;
         }
 
-        public UserGroup(Node oriNode) : base(oriNode)
+        public Role(Node oriNode) : base(oriNode)
         {
             if (oriNode.GetType() != GetType())
             {
@@ -31,26 +31,26 @@ namespace Argus.Backend.Model.Nodes
                                                                               + " type:" + oriNode.GetType().Name + " try to convert as " + Type + ".");
             }
 
-            UserGroup newNode = oriNode as UserGroup;
+            Role newNode = oriNode as Role;
             if (newNode == null)
             {
                 throw new ArgumentNullException("Node init failed, invalid node:" + oriNode.Name);
             }
 
-            GroupType = newNode.GroupType;
+            Level = newNode.Level;
             Description = newNode.Description;
         }
 
-        public UserGroup(XmlElement xNode) : base(xNode)
+        public Role(XmlElement xNode) : base(xNode)
         {
             try
             {
-                GroupType = xNode.GetText("GroupType");
+                Level = Convert.ToInt32(xNode.GetText("Level"));
                 Description = xNode.GetText("Description");
             }
             catch (Exception)
             {
-                throw new DataException( GetType().Name +":" + Name + "'s data is invalid, please check the DB.");
+                throw new DataException(GetType().Name + ":" + Name + "'s data is invalid, please check the DB.");
             }
         }
     }

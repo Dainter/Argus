@@ -16,6 +16,8 @@ namespace Argus.Backend.Utility
         public const string Lead = "Lead";
         public const string LeadBy = "LeadBy";
 
+        public const string As = "As";
+
         public static List<string> GroupTypes = new List<string> { "Executive", "Project"};
     }
 }

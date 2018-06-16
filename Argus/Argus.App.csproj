@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Images\Siemens_logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -40,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -106,6 +110,18 @@
       <Project>{bc7a8473-6d9c-4960-958e-9de92fcc367a}</Project>
       <Name>GraphDB</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\siemens_logo_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\siemens_logo_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\siemens_logo_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\Siemens_logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

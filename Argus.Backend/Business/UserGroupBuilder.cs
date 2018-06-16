@@ -5,9 +5,9 @@ using GraphDB.Core;
 
 namespace Argus.Backend.Business
 {
-    public class UserGroupConstructor
+    public class UserGroupBuilder
     {
-        public static void ConstructUserGroup(Graph graph, UserGroup group, User leader, 
+        public static void BuildUserGroup(Graph graph, UserGroup group, User leader, 
             List<User> members, List<UserGroup> subGroups = null)
         {
             //Add edges between Group and Leader

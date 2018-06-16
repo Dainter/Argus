@@ -1,5 +1,8 @@
-﻿using System.Xml;
+﻿using System;
+using System.Data;
+using System.Xml;
 using GraphDB.Core;
+using GraphDB.Utility;
 
 namespace Argus.Backend.Model.Nodes
 {
@@ -15,6 +18,14 @@ namespace Argus.Backend.Model.Nodes
 
         public Task(XmlElement xNode) : base(xNode)
         {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+                throw new DataException(GetType().Name + ":" + Name + "'s data is invalid, please check the DB.");
+            }
         }
     }
 }

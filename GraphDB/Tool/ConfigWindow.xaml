@@ -237,8 +237,7 @@
                 <Grid x:Name="NodeInfoGrid" Background="{Binding ElementName=MainRibbon, Path=Background}" MinWidth="200" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="50"/>
-                        <ColumnDefinition Width="Auto" MinWidth="100"/>
-                        <ColumnDefinition />
+                        <ColumnDefinition MinWidth="100"/>
                     </Grid.ColumnDefinitions>
                 </Grid>
             </ScrollViewer>

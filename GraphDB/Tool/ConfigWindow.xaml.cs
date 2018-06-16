@@ -198,7 +198,7 @@ namespace GraphDB.Tool
             var strPath = savedialog.FileName;
             try
             {
-                myGdb = new Graph(strPath);
+                myGdb = new Graph("Database", strPath);
             }
             catch (Exception exception)
             {
@@ -260,7 +260,7 @@ namespace GraphDB.Tool
             var strPath = opendialog.FileName;
             try
             {
-                myGdb = new Graph(strPath);
+                myGdb = new Graph("Database", strPath);
             }
             catch (Exception exception)
             {
@@ -480,7 +480,7 @@ namespace GraphDB.Tool
         private void Refresh()
         {
             AllReset();
-            myGdb = new Graph(myDataBasePath);
+            myGdb = new Graph("Database", myDataBasePath);
             FillNodeList();
             myIsDbAvailable = true;
         }
@@ -612,18 +612,17 @@ namespace GraphDB.Tool
                 ListBox contentlistBox = new ListBox
                 {
                     Margin = new Thickness(2),
-                    Width = 200
                 };
                 dynamic x = pInfo.GetValue(curNode, null);
                 foreach (var item in x)
                 {
                     if( pInfo.Name == "OutBound" )
                     {
-                        contentlistBox.Items.Add(((Edge)item).To.Name);
+                        contentlistBox.Items.Add((Edge)item + " "+ ((Edge)item).To.Name);
                     }
                     else if(pInfo.Name == "InBound")
                     {
-                        contentlistBox.Items.Add(((Edge)item).From.Name);
+                        contentlistBox.Items.Add(((Edge)item).From.Name + " " + (Edge)item);
                     }
                     else
                     {
@@ -635,7 +634,6 @@ namespace GraphDB.Tool
             var contentBox = new TextBox();
             var newLabel = new Label();
             contentBox.Margin = new Thickness(2);
-            contentBox.Width = 200;
             contentBox.IsReadOnly = true;
             newLabel.Content = pInfo.GetValue(curNode, null);
             if(newLabel.Content == null)

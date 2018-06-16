@@ -40,9 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\ProcedureConstructor.cs" />
-    <Compile Include="Business\UserGroupConstructor.cs" />
+    <Compile Include="Business\ProcedureBuilder.cs" />
+    <Compile Include="Business\UserGroupBuilder.cs" />
     <Compile Include="GraphConstructor.cs" />
+    <Compile Include="Model\Edges\As.cs" />
     <Compile Include="Model\Edges\BelongTo.cs" />
     <Compile Include="Model\Edges\HandleBy.cs" />
     <Compile Include="Model\Edges\Incharge.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Model\Edges\Previous.cs" />
     <Compile Include="Model\Nodes\Procedure.cs" />
     <Compile Include="Model\Nodes\ProcedureStep.cs" />
+    <Compile Include="Model\Nodes\Role.cs" />
     <Compile Include="Model\Nodes\Task.cs" />
     <Compile Include="Model\Nodes\User.cs" />
     <Compile Include="Model\Nodes\UserGroup.cs" />

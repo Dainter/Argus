@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Xml;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
@@ -36,7 +37,14 @@ namespace Argus.Backend.Model.Nodes
 
         public Procedure(XmlElement xNode) : base(xNode)
         {
-            Description = xNode.GetText("Description");
+            try
+            {
+                Description = xNode.GetText("Description");
+            }
+            catch (Exception)
+            {
+                throw new DataException(GetType().Name + ":" + Name + "'s data is invalid, please check the DB.");
+            }
         }
     }
 }

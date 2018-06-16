@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Xml;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
@@ -47,9 +48,16 @@ namespace Argus.Backend.Model.Nodes
 
         public User(XmlElement xNode) : base(xNode)
         {
-            Department = xNode.GetText("Department");
-            MailBox = xNode.GetText("MailBox");
-            Password = xNode.GetText("Password");
+            try
+            {
+                Department = xNode.GetText("Department");
+                MailBox = xNode.GetText("MailBox");
+                Password = xNode.GetText("Password");
+            }
+            catch (Exception)
+            {
+                throw new DataException(GetType().Name + ":" + Name + "'s data is invalid, please check the DB.");
+            }
         }
     }
 }

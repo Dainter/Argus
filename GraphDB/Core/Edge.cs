@@ -87,5 +87,10 @@ namespace GraphDB.Core
             myAttribute = xNode.GetText("Attribute");
             myValue = xNode.GetText("Value");
         }
+
+        public override string ToString()
+        {
+            return GetType().Name + ":" + Value + " ";
+        }
     }
 }

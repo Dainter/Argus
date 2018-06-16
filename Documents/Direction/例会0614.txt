@@ -1,0 +1,5 @@
+
+
+1、	但本图在未来会做更加贴合业务的细化和修改，如引入“Interaction”概念，每位User对Task发生一次操作就作为一次Interaction，这个交互的具体细节以流程的各个环节而不同。如提交者填写问题现象，处理人提交根因分析和测试建议，测试提交测试报告。
+2、	将ProcedureStep挂接不同的UserGroup，代表不同的模块。不引入“Module”概念，避免图过分复杂。
+3、	Leader作为比较特殊的Group成员，和UserGroup之间的关系是Lead/LeadBy。但其仍属于团队的一员，即UserGroup包含一个Leader和不限个数个User成员。

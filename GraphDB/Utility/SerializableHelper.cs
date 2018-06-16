@@ -23,7 +23,7 @@ namespace GraphDB.Utility
                     continue;
                 }
                 XmlElement tag = doc.CreateElement(curItem.Name);
-                string txt = (string)curItem.GetValue(obj);
+                string txt = curItem.GetValue(obj).ToString();
                 XmlText value = doc.CreateTextNode(txt);
                 tag.AppendChild(value);
                 xmlNode.AppendChild(tag);
