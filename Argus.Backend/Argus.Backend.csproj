@@ -52,6 +52,7 @@
     <Compile Include="Model\Edges\LeadBy.cs" />
     <Compile Include="Model\Edges\Next.cs" />
     <Compile Include="Model\Edges\Previous.cs" />
+    <Compile Include="Model\Nodes\Interaction.cs" />
     <Compile Include="Model\Nodes\Procedure.cs" />
     <Compile Include="Model\Nodes\ProcedureStep.cs" />
     <Compile Include="Model\Nodes\Role.cs" />
