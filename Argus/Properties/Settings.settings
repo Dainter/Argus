@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="WorkflowDBPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Argus/Workflow.xml</Value>
+      <Value Profile="(Default)">Argus\Workflow.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

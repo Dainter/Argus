@@ -25,7 +25,7 @@ namespace Argus.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Argus/Workflow.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Argus\\Workflow.xml")]
         public string WorkflowDBPath {
             get {
                 return ((string)(this["WorkflowDBPath"]));

@@ -14,9 +14,7 @@ namespace Argus
         {
             InitializeComponent();
 
-            var myGraphConstructor = new GraphConstructor(Properties.Settings.Default.WorkflowDBPath);
-
-            myGraphConstructor.CreateGraph();
+            DataStorage.GetStorage().OpenOrCreate("Workflow",  Properties.Settings.Default.WorkflowDBPath);
 
             ConfigWindow configWindow = new ConfigWindow(Properties.Settings.Default.WorkflowDBPath);
             configWindow.ShowDialog();

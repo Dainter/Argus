@@ -21,13 +21,22 @@ namespace GraphDB.Utility
 
         private static List<Assembly> LoadAssemblies()
         {
-            string path = Assembly.GetExecutingAssembly().Location;
-            string asmName = Path.GetFileName(path);
-            List<string> assemList = GetConfiguration("SerialAssemblyList");
+            //string path = Settings.Default.ReferenceAssemblyPath;
+            string path = Directory.GetCurrentDirectory();
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
             List<Assembly> assemblies = new List<Assembly>();
-            foreach (string curItem in assemList)
+            foreach (FileSystemInfo fileInfo in directoryInfo.GetFileSystemInfos())
             {
-                assemblies.Add(Assembly.LoadFile(path.Replace(asmName, curItem)));
+                if (!(fileInfo is FileInfo))
+                {
+                    continue;
+                }
+
+                if (fileInfo.Extension == ".exe" || fileInfo.Extension == ".dll")
+                {
+                    Assembly newAssembly = Assembly.LoadFile(fileInfo.FullName);
+                    assemblies.Add(newAssembly);
+                }
             }
 
             return assemblies;
@@ -38,26 +47,5 @@ namespace GraphDB.Utility
             return myAssemblies;
         }
 
-        internal static List<string> GetConfiguration(string nodeName)
-        {
-            IIoStrategy xmlReader = new XMLStrategy(Settings.Default.GraphDBConfigPath);
-            XmlElement root;
-            try
-            {
-                root = xmlReader.ReadFile();
-            }
-            catch (SerializationException)
-            {
-                return new List<string>();
-            }
-
-            List<string> assemList = new List<string>();
-            XmlElement setting = root.GetNode(nodeName);
-            foreach (XmlNode curItem in setting.ChildNodes)
-            {
-                assemList.Add(curItem.InnerText);
-            }
-            return assemList;
-        }
     }
 }

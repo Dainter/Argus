@@ -38,9 +38,9 @@ namespace GraphDB.Core
             FilePath = path;
             myNodeList = new Dictionary<string, Node>();
             myEdgeList = new List<Edge>();
-            myIohandler = new XMLStrategy(path);
+            myIohandler = new XMLStrategy(FilePath);
 
-            if( !File.Exists( path ) )
+            if( !File.Exists(FilePath) )
             {
                 SaveDataBase();
                 return;
