@@ -11,21 +11,19 @@ namespace GraphDB.Utility
 {
     internal class Configuration
     {
-        private static Configuration config = new Configuration();
-        private static List<Assembly> myAssemblies;
+        private List<Assembly> myAssemblies;
+        private DirectoryInfo myDirectoryInfo;
 
-        private Configuration()
+        public Configuration(string path)
         {
+            myDirectoryInfo = new DirectoryInfo(path);
             myAssemblies = LoadAssemblies();
         }
 
-        private static List<Assembly> LoadAssemblies()
+        private List<Assembly> LoadAssemblies()
         {
-            //string path = Settings.Default.ReferenceAssemblyPath;
-            string path = Directory.GetCurrentDirectory();
-            DirectoryInfo directoryInfo = new DirectoryInfo(path);
             List<Assembly> assemblies = new List<Assembly>();
-            foreach (FileSystemInfo fileInfo in directoryInfo.GetFileSystemInfos())
+            foreach (FileSystemInfo fileInfo in myDirectoryInfo.GetFileSystemInfos())
             {
                 if (!(fileInfo is FileInfo))
                 {
@@ -42,7 +40,7 @@ namespace GraphDB.Utility
             return assemblies;
         }
 
-        public static List<Assembly> GetAssemblies()
+        public List<Assembly> GetAssemblies()
         {
             return myAssemblies;
         }

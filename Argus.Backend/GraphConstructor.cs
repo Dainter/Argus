@@ -15,7 +15,7 @@ namespace Argus.Backend
 
         public GraphConstructor(string dbName)
         {
-            myWorkflowGraph = new Graph("Workflow", dbName);
+            //myWorkflowGraph = new Graph("Workflow", dbName);
         }
 
         public void CreateGraph()

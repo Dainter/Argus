@@ -31,12 +31,12 @@ namespace GraphDB.Utility
             return xmlNode;
         }
 
-        public static object Deserialize(XmlElement xmlNode)
+        public static object Deserialize(XmlElement xmlNode, Configuration config)
         {
             object[] parameters = new object[1];
             parameters[0] = xmlNode;
             string className = xmlNode.GetAttribute(XmlNames.Class);
-            Assembly asm = GetAssembly(className);
+            Assembly asm = GetAssembly(className, config);
             return asm?.CreateInstance(className, true, BindingFlags.Default, null, parameters, null, null);
         }
 
@@ -62,9 +62,9 @@ namespace GraphDB.Utility
             return "";
         }
 
-        private static Assembly GetAssembly( string typeName )
+        private static Assembly GetAssembly( string typeName, Configuration config )
         {
-            var assemList = Configuration.GetAssemblies();
+            var assemList = config.GetAssemblies();
             foreach ( var curItem in assemList)
             {
                 if(curItem.ExportedTypes.Any( x => x.FullName == typeName ) )

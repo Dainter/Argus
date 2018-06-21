@@ -16,10 +16,13 @@ namespace GraphDB.Core
         private readonly Dictionary<string, Node> myNodeList;
         private readonly List<Edge> myEdgeList;
         private readonly IIoStrategy myIohandler;
+        private readonly Configuration myConfiguration;
 
         public string Name { get; private set; }
 
         public string FilePath { get; private set; }
+
+        public string AssemblyPath { get; private set; }
 
         public Dictionary<string, Node> Nodes => myNodeList;
 
@@ -32,15 +35,17 @@ namespace GraphDB.Core
             myEdgeList = new List<Edge>();
         }
 
-        public Graph(string name, string path )
+        public Graph(string name, string dbPath, string assemblyPath  )
         {
             Name = name;
-            FilePath = path;
+            FilePath = dbPath;
+            AssemblyPath = assemblyPath;
             myNodeList = new Dictionary<string, Node>();
             myEdgeList = new List<Edge>();
             myIohandler = new XMLStrategy(FilePath);
+            myConfiguration = new Configuration(AssemblyPath);
 
-            if( !File.Exists(FilePath) )
+            if ( !File.Exists(FilePath) )
             {
                 SaveDataBase();
                 return;
@@ -57,7 +62,7 @@ namespace GraphDB.Core
             //Nodes
             foreach (XmlElement curItem in nodes)
             {
-                Node newNode = (Node)SerializableHelper.Deserialize(curItem);
+                Node newNode = (Node)SerializableHelper.Deserialize(curItem, myConfiguration);
                 if (newNode == null)
                 {
                     throw new SerializationException($"Error found during Deserialize. XML:{curItem}");
@@ -67,7 +72,7 @@ namespace GraphDB.Core
             //Edges
             foreach (XmlElement curItem in edges)
             {
-                Edge newEdge = (Edge)SerializableHelper.Deserialize(curItem);
+                Edge newEdge = (Edge)SerializableHelper.Deserialize(curItem, myConfiguration);
                 if (newEdge == null)
                 {
                     throw new SerializationException($"Error found during Deserialize. XML:{curItem}");

@@ -36,6 +36,7 @@ namespace GraphDB.Tool
         private GraphRenderer myGraphRenderer;
         //MainDataSet DataSet;
         private readonly string myDataBasePath;
+        private readonly string myAssemblyPath;
 
         bool myIsDbAvailable;
         bool myIsModified;
@@ -43,10 +44,11 @@ namespace GraphDB.Tool
         Node myCurModifyNode;
         Edge myCurModifyEdge;
         
-        public ConfigWindow(string dbPath)
+        public ConfigWindow(string dbPath, string assemblePath)
         {
             InitializeComponent();
             myDataBasePath = dbPath;
+            myAssemblyPath = assemblePath;
         }
 
         private void RibbonWindow_Loaded(object sender, RoutedEventArgs e)
@@ -62,7 +64,7 @@ namespace GraphDB.Tool
             StatusUpdateTimer_Init();
             try
             {
-                myGdb = new Graph("Database", myDataBasePath);
+                myGdb = new Graph("Database", myDataBasePath, myAssemblyPath);
             }
             catch (Exception exception)
             {
@@ -198,7 +200,7 @@ namespace GraphDB.Tool
             var strPath = savedialog.FileName;
             try
             {
-                myGdb = new Graph("Database", strPath);
+                myGdb = new Graph("Database", strPath, myAssemblyPath);
             }
             catch (Exception exception)
             {
@@ -260,7 +262,7 @@ namespace GraphDB.Tool
             var strPath = opendialog.FileName;
             try
             {
-                myGdb = new Graph("Database", strPath);
+                myGdb = new Graph("Database", strPath, myAssemblyPath);
             }
             catch (Exception exception)
             {
@@ -480,7 +482,7 @@ namespace GraphDB.Tool
         private void Refresh()
         {
             AllReset();
-            myGdb = new Graph("Database", myDataBasePath);
+            myGdb = new Graph("Database", myDataBasePath, myAssemblyPath);
             FillNodeList();
             myIsDbAvailable = true;
         }

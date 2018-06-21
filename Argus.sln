@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphDB", "GraphDB\GraphDB.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argus.Backend", "Argus.Backend\Argus.Backend.csproj", "{6F223BEA-FCB6-44C9-A640-CB068108BED2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{26A6537D-8C15-4F0C-B6DE-DF6F11E4E3D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6F223BEA-FCB6-44C9-A640-CB068108BED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F223BEA-FCB6-44C9-A640-CB068108BED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F223BEA-FCB6-44C9-A640-CB068108BED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26A6537D-8C15-4F0C-B6DE-DF6F11E4E3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26A6537D-8C15-4F0C-B6DE-DF6F11E4E3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26A6537D-8C15-4F0C-B6DE-DF6F11E4E3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26A6537D-8C15-4F0C-B6DE-DF6F11E4E3D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

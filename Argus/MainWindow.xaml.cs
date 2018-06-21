@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using Argus.Backend;
 using GraphDB.Tool;
 
@@ -14,9 +15,11 @@ namespace Argus
         {
             InitializeComponent();
 
-            DataStorage.GetStorage().OpenOrCreate("Workflow",  Properties.Settings.Default.WorkflowDBPath);
-
-            ConfigWindow configWindow = new ConfigWindow(Properties.Settings.Default.WorkflowDBPath);
+            DataStorage.GetStorage().OpenOrCreate("Workflow",  
+                Properties.Settings.Default.WorkflowDBPath,
+                Directory.GetCurrentDirectory());
+            var users = DataStorage.GetStorage().GetUsers("Workflow");
+            ConfigWindow configWindow = new ConfigWindow(Properties.Settings.Default.WorkflowDBPath, Directory.GetCurrentDirectory());
             configWindow.ShowDialog();
         }
 

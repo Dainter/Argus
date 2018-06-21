@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WebApi.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WorkflowDBName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Workflow</Value>
+    </Setting>
+    <Setting Name="WorkflowDBPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">..\bin\Argus\Workflow.xml</Value>
+    </Setting>
+    <Setting Name="AssemblyPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">..\bin\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
