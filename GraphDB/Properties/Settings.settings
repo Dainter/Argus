@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GraphDB.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="ReferenceAssemblyPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">D:\Dainter\资料\Argus\Argus\bin\</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>
