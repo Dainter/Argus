@@ -106,10 +106,6 @@
       <Project>{6f223bea-fcb6-44c9-a640-cb068108bed2}</Project>
       <Name>Argus.Backend</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GraphDB\GraphDB.csproj">
-      <Project>{bc7a8473-6d9c-4960-958e-9de92fcc367a}</Project>
-      <Name>GraphDB</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\siemens_logo_16.png" />

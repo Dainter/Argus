@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Argus.Backend;
+using Argus.Backend.Model.Nodes;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -14,9 +15,8 @@ namespace WebApi.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            //List<string> strings = new List<string>();
-            //strings.Add(DataStorage.GetStorage().GetString());
-            return GraphDatabase.GetDatabase().GetUsers();
+           return GraphDatabase.GetDatabase().GetUsers();
+            //return GraphDatabase.GetDatabase().GetProcedureSteps();
             //return new string[] { "value1", "value2" };
         }
 

@@ -34,18 +34,6 @@ namespace Argus.Backend
             myGraphs.Add(name, newGraph);
         }
 
-        public string GetString()
-        {
-            return "Fuck you.";
-        }
-
-        public IEnumerable<string> GetUsers(string dbName)
-        {
-            Graph curGraph = GetGraph(dbName);
-            var users = curGraph.GetNodesByType(typeof(User)).Select(x => x.Name);
-            return null;
-        }
-
         private Graph GetGraph(string dbName)
         {
             if (dbName == null || !myGraphs.ContainsKey(dbName))
@@ -60,6 +48,13 @@ namespace Argus.Backend
 
             return curGraph;
         }
+
+        public IEnumerable<string> GetUsers(string dbName)
+        {
+            Graph curGraph = GetGraph(dbName);
+            return curGraph.GetNodesByType(typeof(User)).Select(x => x.Name);
+        }
+
 
         public IEnumerable GetAll<T>(string name)
         {

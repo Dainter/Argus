@@ -30,20 +30,56 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Microsoft Ribbon for WPF\V4.0\RibbonControlsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit.Extended, Version=1.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\WPFToolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ProcedureBuilder.cs" />
     <Compile Include="Business\UserGroupBuilder.cs" />
     <Compile Include="DataStorage.cs" />
     <Compile Include="GraphConstructor.cs" />
+    <Compile Include="GraphDB\Contract\Enum\EdgeDirection.cs" />
+    <Compile Include="GraphDB\Contract\Enum\ErrorCode.cs" />
+    <Compile Include="GraphDB\Contract\Enum\ModifyOperation.cs" />
+    <Compile Include="GraphDB\Contract\Serial\IIoStrategy.cs" />
+    <Compile Include="GraphDB\Contract\Serial\XmlNames.cs" />
+    <Compile Include="GraphDB\Contract\Serial\XmlSerializableAttribute.cs" />
+    <Compile Include="GraphDB\Core\Edge.cs" />
+    <Compile Include="GraphDB\Core\Graph.cs" />
+    <Compile Include="GraphDB\Core\Node.cs" />
+    <Compile Include="GraphDB\IO\XMLStrategy.cs" />
+    <Compile Include="GraphDB\Tool\ConfigWindow.xaml.cs">
+      <DependentUpon>ConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GraphDB\Tool\Drawing\Arrow.cs" />
+    <Compile Include="GraphDB\Tool\Drawing\DrawingCanvas.cs" />
+    <Compile Include="GraphDB\Tool\Drawing\GraphRenderer.cs" />
+    <Compile Include="GraphDB\Tool\Layout\CircleLayout.cs" />
+    <Compile Include="GraphDB\Tool\Layout\EdgeDrawing.cs" />
+    <Compile Include="GraphDB\Tool\Layout\NodeDrawing.cs" />
+    <Compile Include="GraphDB\Tool\UI_Resources\SystemConverter.cs" />
+    <Compile Include="GraphDB\Utility\Configuration.cs" />
+    <Compile Include="GraphDB\Utility\SerializableHelper.cs" />
+    <Compile Include="GraphDB\Utility\XmlElementExtension.cs" />
     <Compile Include="Model\Edges\As.cs" />
     <Compile Include="Model\Edges\BelongTo.cs" />
     <Compile Include="Model\Edges\HandleBy.cs" />
@@ -65,12 +101,71 @@
     <Compile Include="Utility\GraphCommonStrings.cs" />
     <Compile Include="Utility\StringHelper.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\GraphDB\GraphDB.csproj">
-      <Project>{bc7a8473-6d9c-4960-958e-9de92fcc367a}</Project>
-      <Name>GraphDB</Name>
-    </ProjectReference>
+    <Page Include="GraphDB\Tool\ConfigWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="GraphDB\Tool\UI_Resources\CommandResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="GraphDB\Tool\UI_Resources\ConverterResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="GraphDB\Tool\UI_Resources\StyleResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="GraphDB\Tool\UI_Resources\ToolTipResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GraphDB\Tool\images\AddEdge.png" />
+    <Resource Include="GraphDB\Tool\images\AddEdge_small.png" />
+    <Resource Include="GraphDB\Tool\images\ClearText.png" />
+    <Resource Include="GraphDB\Tool\images\ClearText_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\Close.png" />
+    <Resource Include="GraphDB\Tool\images\Exit.png" />
+    <Resource Include="GraphDB\Tool\images\Exit_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\File PrintPreview_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\FileClose.png" />
+    <Resource Include="GraphDB\Tool\images\FileNew.png" />
+    <Resource Include="GraphDB\Tool\images\FileNewDocument_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\FileNew_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\FileOpen.png" />
+    <Resource Include="GraphDB\Tool\images\FileOpen_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\FileOpen_small.png" />
+    <Resource Include="GraphDB\Tool\images\FilePrint.png" />
+    <Resource Include="GraphDB\Tool\images\FilePrintPreview.png" />
+    <Resource Include="GraphDB\Tool\images\FilePrintPreview_small.png" />
+    <Resource Include="GraphDB\Tool\images\FilePrintQuick.png" />
+    <Resource Include="GraphDB\Tool\images\FilePrintQuick_small.png" />
+    <Resource Include="GraphDB\Tool\images\FilePrint_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\FilePrint_small.png" />
+    <Resource Include="GraphDB\Tool\images\FileProperties.png" />
+    <Resource Include="GraphDB\Tool\images\FileSave.png" />
+    <Resource Include="GraphDB\Tool\images\FileSaveAs.png" />
+    <Resource Include="GraphDB\Tool\images\FileSave_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\File_close_small.png" />
+    <Resource Include="GraphDB\Tool\images\Modify.png" />
+    <Resource Include="GraphDB\Tool\images\Modify_small.png" />
+    <Resource Include="GraphDB\Tool\images\NodeStyles.png" />
+    <Resource Include="GraphDB\Tool\images\NodeStyles_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\Option.png" />
+    <Resource Include="GraphDB\Tool\images\Option_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\Refresh.png" />
+    <Resource Include="GraphDB\Tool\images\Refresh_16x16.png" />
+    <Resource Include="GraphDB\Tool\images\RemoveEdge.png" />
+    <Resource Include="GraphDB\Tool\images\RemoveEdge_small.png" />
+    <Resource Include="GraphDB\Tool\images\RemoveNode.png" />
+    <Resource Include="GraphDB\Tool\images\RemoveNode_small.png" />
+    <Resource Include="GraphDB\Tool\images\siemens_logo_16.png" />
+    <Resource Include="GraphDB\Tool\images\siemens_logo_32.png" />
+    <Resource Include="GraphDB\Tool\images\SmartTaskChain.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
