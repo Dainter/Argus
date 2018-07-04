@@ -53,13 +53,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\GroupTypeEnum.cs" />
     <Compile Include="Business\ProcedureBuilder.cs" />
+    <Compile Include="Business\ProcedureStepEunm.cs" />
+    <Compile Include="Business\RoleEnum.cs" />
+    <Compile Include="Business\TaskBuilder.cs" />
     <Compile Include="Business\UserGroupBuilder.cs" />
     <Compile Include="DataStorage.cs" />
     <Compile Include="GraphConstructor.cs" />
     <Compile Include="GraphDB\Contract\Enum\EdgeDirection.cs" />
     <Compile Include="GraphDB\Contract\Enum\ErrorCode.cs" />
     <Compile Include="GraphDB\Contract\Enum\ModifyOperation.cs" />
+    <Compile Include="GraphDB\Contract\Serial\XmlEnumerableAttribute.cs" />
     <Compile Include="GraphDB\Contract\Serial\IIoStrategy.cs" />
     <Compile Include="GraphDB\Contract\Serial\XmlNames.cs" />
     <Compile Include="GraphDB\Contract\Serial\XmlSerializableAttribute.cs" />
@@ -81,7 +86,12 @@
     <Compile Include="GraphDB\Utility\SerializableHelper.cs" />
     <Compile Include="GraphDB\Utility\XmlElementExtension.cs" />
     <Compile Include="Model\Edges\As.cs" />
+    <Compile Include="Model\Edges\Assigned.cs" />
+    <Compile Include="Model\Edges\AssignTo.cs" />
     <Compile Include="Model\Edges\BelongTo.cs" />
+    <Compile Include="Model\Edges\Create.cs" />
+    <Compile Include="Model\Edges\CreateBy.cs" />
+    <Compile Include="Model\Edges\CurrentStep.cs" />
     <Compile Include="Model\Edges\HandleBy.cs" />
     <Compile Include="Model\Edges\Incharge.cs" />
     <Compile Include="Model\Edges\Include.cs" />
@@ -89,7 +99,9 @@
     <Compile Include="Model\Edges\LeadBy.cs" />
     <Compile Include="Model\Edges\Next.cs" />
     <Compile Include="Model\Edges\Previous.cs" />
-    <Compile Include="Model\Nodes\Interaction.cs" />
+    <Compile Include="Model\Nodes\FaultInfo.cs" />
+    <Compile Include="Model\Nodes\Interactions\TicketCheckInteraction.cs" />
+    <Compile Include="Model\Nodes\Interactions\AbstractInteraction.cs" />
     <Compile Include="Model\Nodes\Procedure.cs" />
     <Compile Include="Model\Nodes\ProcedureStep.cs" />
     <Compile Include="Model\Nodes\Role.cs" />
@@ -99,7 +111,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Encryptor.cs" />
     <Compile Include="Utility\GraphCommonStrings.cs" />
+    <Compile Include="Utility\SerializableHelper.cs" />
     <Compile Include="Utility\StringHelper.cs" />
+    <Compile Include="Utility\XmlElementExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="GraphDB\Tool\ConfigWindow.xaml">
@@ -167,6 +181,7 @@
     <Resource Include="GraphDB\Tool\images\siemens_logo_32.png" />
     <Resource Include="GraphDB\Tool\images\SmartTaskChain.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

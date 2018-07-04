@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using Argus.Backend;
+using Argus.Backend.Model.Nodes;
 using GraphDB.Tool;
 
 
@@ -14,15 +16,21 @@ namespace Argus
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            DataStorage.GetStorage().OpenOrCreate("Workflow",  
-                Properties.Settings.Default.WorkflowDBPath,
-                Directory.GetCurrentDirectory());
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //DataStorage.GetStorage().OpenOrCreate("Workflow",  
+            //    Properties.Settings.Default.WorkflowDBPath,
+            //    Directory.GetCurrentDirectory());
+            //IEnumerable<UserGroup> userGroups = DataStorage.GetStorage().GetUserGroups("Workflow");
+            GraphConstructor graphConstructor =
+                new GraphConstructor(Properties.Settings.Default.WorkflowDBPath,
+                    Directory.GetCurrentDirectory());
+            //graphConstructor.CreateGraph();
             //var users = DataStorage.GetStorage().GetUsers("Workflow");
             ConfigWindow configWindow = new ConfigWindow(Properties.Settings.Default.WorkflowDBPath, Directory.GetCurrentDirectory());
             configWindow.ShowDialog();
         }
-
-        
     }
 }

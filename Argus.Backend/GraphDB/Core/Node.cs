@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -189,7 +190,7 @@ namespace GraphDB.Core
 
         public override string ToString()
         {
-            return Guid;
+            return GetType().Name + ": " + Name;
         }
 
         public string DataOutput()
@@ -238,7 +239,7 @@ namespace GraphDB.Core
             return new List<Edge>();
         }
 
-        //查找类型为指定Type的连边
+        //查找类型为指定Type的连边: 字面量
         public IEnumerable<Edge> GetEdgesByType(string attribute, EdgeDirection direction)
         {
             if (attribute == null)
@@ -252,6 +253,24 @@ namespace GraphDB.Core
             if (direction == EdgeDirection.Out)
             {
                 return OutBound.Where(x => x.Attribute == attribute);
+            }
+            return new List<Edge>();
+        }
+
+        //查找类型为指定Type的连边
+        public IEnumerable<Edge> GetEdgesByType(IEnumerable<Type> types, EdgeDirection direction)
+        {
+            if ( types == null )
+            {
+                return new List<Edge>();
+            }
+            if (direction == EdgeDirection.In)
+            {
+                return InBound.Where(x =>types.Contains(x.GetType()));
+            }
+            if (direction == EdgeDirection.Out)
+            {
+                return OutBound.Where(x => types.Contains(x.GetType()));
             }
             return new List<Edge>();
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Xml;
+using Argus.Backend.Utility;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
-using GraphDB.Utility;
 
 namespace Argus.Backend.Model.Nodes
 {

@@ -1,21 +1,20 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
 using GraphDB.Contract.Serial;
-using GraphDB.Core;
 
-
-namespace GraphDB.Utility
+namespace Argus.Backend.Utility
 {
     internal static class SerializableHelper
     {
-        public static XmlElement Serialize(XmlDocument doc, object obj)
+        public static XmlElement Serialize(XmlDocument doc, object obj, string name = "Item")
         {
             PropertyInfo[] pInfos = obj.GetType().GetProperties();
 
-            XmlElement xmlNode = doc.CreateElement(GetBaseType(obj));
-            xmlNode.SetAttribute( XmlNames.Class, obj.GetType().FullName);
+            XmlElement xmlNode = doc.CreateElement(name);
+            xmlNode.SetAttribute(XmlNames.Class, obj.GetType().FullName);
             foreach (var curItem in pInfos)
             {
                 if (!IsSerialableProperty(curItem))
@@ -30,7 +29,7 @@ namespace GraphDB.Utility
                     {
                         continue;
                     }
-                    xmlNode.AppendChild( doc.ImportNode(newNode, true) );
+                    xmlNode.AppendChild(doc.ImportNode(newNode, true));
                     continue;
                 }
                 XmlElement tag = doc.CreateElement(curItem.Name);
@@ -42,7 +41,7 @@ namespace GraphDB.Utility
             return xmlNode;
         }
 
-        public static object Deserialize(XmlElement xmlNode, Configuration config)
+        public static object Deserialize(XmlElement xmlNode)
         {
             object[] parameters = new object[1];
             parameters[0] = xmlNode;
@@ -68,32 +67,5 @@ namespace GraphDB.Utility
             }
             return false;
         }
-
-        private static string GetBaseType(object obj)
-        {
-            if( obj is Node )
-            {
-                return XmlNames.Node;
-            }
-            if (obj is Edge)
-            {
-                return XmlNames.Edge;
-            }
-            return "";
-        }
-
-        private static Assembly GetAssembly( string typeName, Configuration config )
-        {
-            var assemList = config.GetAssemblies();
-            foreach ( var curItem in assemList)
-            {
-                if(curItem.ExportedTypes.Any( x => x.FullName == typeName ) )
-                {
-                    return curItem;
-                }
-            }
-            throw new FileLoadException("No valid assembly has been found.");
-        }
-
     }
 }

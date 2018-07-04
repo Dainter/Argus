@@ -6,18 +6,23 @@ using System.Net.Http;
 using System.Web.Http;
 using Argus.Backend;
 using Argus.Backend.Model.Nodes;
+using Newtonsoft.Json;
 using WebApi.Models;
+using WebApi.Utility;
 
 namespace WebApi.Controllers
 {
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public IHttpActionResult Get()
         {
-           return GraphDatabase.GetDatabase().GetUsers();
+            IEnumerable<UserViewModel> users = GraphDatabase.GetDatabase().GetUsers().Select( x => new UserViewModel(x));
+            IEnumerable<UserGroupViewModel> userGroups = GraphDatabase.GetDatabase().GetUserGroups().Select(x => new UserGroupViewModel(x));
             //return GraphDatabase.GetDatabase().GetProcedureSteps();
             //return new string[] { "value1", "value2" };
+            //var result = JsonHelper.SerializeObject(users);
+            return Json(userGroups);
         }
 
         // GET api/values/5

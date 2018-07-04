@@ -609,7 +609,7 @@ namespace GraphDB.Tool
         private Control GetWidget(PropertyInfo pInfo, object curNode)
         {
             
-            if(pInfo.PropertyType.Name == "List`1")
+            if(pInfo.PropertyType.Name == "List`1" || pInfo.PropertyType.Name == "IEnumerable`1")
             {
                 ListBox contentlistBox = new ListBox
                 {

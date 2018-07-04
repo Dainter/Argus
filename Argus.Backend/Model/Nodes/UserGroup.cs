@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Xml;
+using Argus.Backend.Model.Edges;
+using Argus.Backend.Utility;
+using GraphDB.Contract.Enum;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
-using GraphDB.Utility;
 
 namespace Argus.Backend.Model.Nodes
 {
@@ -16,6 +20,12 @@ namespace Argus.Backend.Model.Nodes
 
         [XmlSerializable]
         public string Description { get; set; }
+
+        public IEnumerable<User> Users => GetUsers();
+
+        public User Leader => GetLeader();
+
+        public IEnumerable<User> Members => GetMembers();
 
         public UserGroup(string name, string type, string description) : base(name)
         {
@@ -52,6 +62,58 @@ namespace Argus.Backend.Model.Nodes
             {
                 throw new DataException( GetType().Name +":" + Name + "'s data is invalid, please check the DB.");
             }
+        }
+
+        private IEnumerable<User> GetUsers()
+        {
+            var users = GetEdgesByType(new List<Type> { typeof(LeadBy), typeof(Include) }, EdgeDirection.Out);
+
+            if (users == null || !users.Any())
+            {
+                return new List<User>();
+            }
+            List<User> userList = new List<User>();
+            var leader = Leader;
+            if (leader != null)
+            {
+                userList.Add(leader);
+            }
+            userList.AddRange(Members);
+            return userList;
+        }
+
+        private User GetLeader()
+        {
+            var users = GetEdgesByType(new List<Type> { typeof(LeadBy) }, EdgeDirection.Out);
+            if (users == null || !users.Any())
+            {
+                return new User("","");
+            }
+            return users.First().To as User;
+        }
+
+        private IEnumerable<User> GetMembers()
+        {
+            var users = GetEdgesByType(new List<Type> { typeof(Include) }, EdgeDirection.Out);
+
+            if (users == null || !users.Any())
+            {
+                return new List<User>();
+            }
+
+            List<User> userList = new List<User>();
+            foreach (var curItem in users)
+            {
+                if (curItem.To.GetType() == typeof(User))
+                {
+                    userList.Add(curItem.To as User);
+                }
+                else if (curItem.To.GetType() == typeof(UserGroup))
+                {
+                    userList.AddRange(((UserGroup) curItem.To).Users);
+                }
+            }
+            return userList;
         }
     }
 }

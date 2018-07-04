@@ -1,55 +1,77 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Xml;
+using Argus.Backend.Model.Nodes.Interactions;
+using Argus.Backend.Utility;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
-using GraphDB.Utility;
 
 namespace Argus.Backend.Model.Nodes
 {
     public class Task : Node
     {
-        static CultureInfo CurCultureInfo = new CultureInfo("en-us");
+        static readonly CultureInfo CurCultureInfo = new CultureInfo("en-us");
 
         //CreateTime
-        DateTime myCreateTime;
+        DateTime myFaultStartTime;
         //AssignTime
-        DateTime myAssignedTime;
+        DateTime myFaultEndTime;
+        //Interactions
+        List<AbstractInteraction> myInteractions;
 
         public string Type => GetType().Name;
 
-        [XmlSerializable]
-        public string ID { get; }
+        public string ID => Name;
 
         [XmlSerializable]
         public string Title { get; }
 
         [XmlSerializable]
-        public string CreateTime
-        {
-            get => myCreateTime.ToString(CurCultureInfo);
-            private set => myCreateTime = Convert.ToDateTime(value, CurCultureInfo);
-        }
-
-        [XmlSerializable]
-        public string AssignedTime
-        {
-            get => myAssignedTime.ToString(CurCultureInfo);
-            private set => myAssignedTime = Convert.ToDateTime(value, CurCultureInfo);
-        }
+        public string Description { get; }
 
         [XmlSerializable]
         public int Priority { get; set; }
 
+        [XmlSerializable]
+        public string DeviceId { get; }
 
-        public Task(string id, string title, int priority = 3) : base(id)
+        [XmlSerializable]
+        public string Version { get; }
+
+        [XmlSerializable]
+        public string StartTime
         {
-            ID = id;
+            get => myFaultStartTime.ToString(CurCultureInfo);
+            private set => myFaultStartTime = Convert.ToDateTime(value, CurCultureInfo);
+        }
+
+        [XmlSerializable]
+        public string EndTime
+        {
+            get => myFaultEndTime.ToString(CurCultureInfo);
+            private set => myFaultEndTime = Convert.ToDateTime(value, CurCultureInfo);
+        }
+
+        [XmlSerializable]
+        [XmlEnumerable]
+        public XmlNode SerialInteractions => GetSerialInteractions();
+
+        public IEnumerable<AbstractInteraction> Interactions => myInteractions;
+
+        public Task(string id, string title, string description, FaultInfo faultInfo, int priority = 3) : base(id)
+        {
             Title = title;
-            myCreateTime = DateTime.Now;
-            myAssignedTime = DateTime.Now;
+            Description = description;
+
+            DeviceId = faultInfo.DeviceId;
+            Version = faultInfo.Version;
+            myFaultStartTime = faultInfo.StartTime;
+            myFaultEndTime = faultInfo.EndTime;
+
             Priority = priority;
+            myInteractions = new List<AbstractInteraction>();
         }
 
         public Task(Node oriNode) : base(oriNode)
@@ -66,27 +88,75 @@ namespace Argus.Backend.Model.Nodes
                 throw new ArgumentNullException("Node init failed, invalid node:" + oriNode.Name);
             }
 
-            ID = newNode.ID;
             Title = newNode.Title;
-            CreateTime = newNode.CreateTime;
-            AssignedTime = newNode.AssignedTime;
+            Description = newNode.Description;
+
+            DeviceId = newNode.DeviceId;
+            Version = newNode.Version;
+            StartTime = newNode.StartTime;
+            EndTime = newNode.EndTime;
+
             Priority = newNode.Priority;
+            myInteractions = newNode.myInteractions;
+
         }
 
         public Task(XmlElement xNode) : base(xNode)
         {
             try
             {
-                ID = xNode.GetText("ID");
                 Title = xNode.GetText("Title");
-                CreateTime = xNode.GetText("CreateTime");
-                AssignedTime = xNode.GetText("AssignedTime");
+                Description = xNode.GetText("Description");
+
+                DeviceId = xNode.GetText("DeviceId");
+                Version = xNode.GetText("Version");
+                StartTime = xNode.GetText("StartTime");
+                EndTime = xNode.GetText("EndTime");
+
                 Priority = Convert.ToInt32(xNode.GetText("Priority"));
+                myInteractions = new List<AbstractInteraction>();
+                XmlNode interactions = xNode.GetNode("Interactions");
+                foreach (XmlElement curItem in interactions.ChildNodes)
+                {
+                    AbstractInteraction newInteraction = SerializableHelper.Deserialize(curItem) as AbstractInteraction;
+                    if (newInteraction == null)
+                    {
+                        continue;
+                    }
+                    myInteractions.Add( newInteraction );
+                }
             }
             catch (Exception)
             {
                 throw new DataException(GetType().Name + ":" + Name + "'s data is invalid, please check the DB.");
             }
+        }
+
+        public void AddInteraction(AbstractInteraction newInteraction)
+        {
+            if (newInteraction == null)
+            {
+                return;
+            }
+            myInteractions.Add(newInteraction);
+        }
+
+        public XmlNode GetSerialInteractions()
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlNode root = doc.CreateElement("Interactions");
+
+            foreach (var curItem in myInteractions)
+            {
+                XmlNode newElement = SerializableHelper.Serialize(doc, curItem, curItem.CurrentStep);
+                if (newElement == null)
+                {
+                    continue;
+                }
+                root.AppendChild(newElement);
+            }
+
+            return root;
         }
     }
 }

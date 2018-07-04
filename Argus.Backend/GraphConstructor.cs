@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
 using Argus.Backend.Business;
 using Argus.Backend.Model.Edges;
 using Argus.Backend.Model.Nodes;
+using Argus.Backend.Model.Nodes.Interactions;
+using Argus.Backend.Utility;
 using GraphDB.Core;
 
 namespace Argus.Backend
@@ -13,9 +18,9 @@ namespace Argus.Backend
 
         public Graph Database => myWorkflowGraph;
 
-        public GraphConstructor(string dbName)
+        public GraphConstructor(string dbName, string assemblyPath)
         {
-            //myWorkflowGraph = new Graph("Workflow", dbName);
+            myWorkflowGraph = new Graph("Workflow", dbName, assemblyPath);
         }
 
         public void CreateGraph()
@@ -24,17 +29,43 @@ namespace Argus.Backend
             //BuildProcedure();
             //BuildUserGroup();
             //BindingProcedureAndUserGroup();
-            //myWorkflowGraph.SaveDataBase();
+            BuildTask();
+            myWorkflowGraph.SaveDataBase();
 
+        }
+
+        private void BuildTask()
+        {
+            
+            FaultInfo faultInfo = new FaultInfo( "111210", "VC50", DateTime.Now, DateTime.Now );
+            Task newTask = new Task("100101", "Moodlight can not work when first start it", "Moodlight can not work when first start it", faultInfo, 3);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            if (newInteraction == null)
+            {
+                throw new DataException();
+            }
+
+            newTask.AddInteraction(newInteraction);
+            try
+            {
+                TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Bob", "Dave", ProcedureStepEunm.TicketCheck.ToString());
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return;
         }
 
         private void BuildRole()
         {
-            admin = new Role("Administrator", 0, "Administrator privilege.");
+            admin = new Role(RoleEnum.Administrator.ToString(), 0, "Administrator privilege.");
             myWorkflowGraph.AddNode(admin);
-            leader = new Role("Leader", 10, "Leader privilege.");
+            leader = new Role(RoleEnum.Leader.ToString(), 10, "Leader privilege.");
             myWorkflowGraph.AddNode(leader);
-            employee = new Role("Employee", 100, "Employee privilege.");
+            employee = new Role(RoleEnum.Empolyee.ToString(), 100, "Employee privilege.");
             myWorkflowGraph.AddNode(employee);
 
             User dainter = new User("Dainter ", "Siemens Ltd. China");
@@ -50,13 +81,13 @@ namespace Argus.Backend
             Procedure procedure = new Procedure("Maintainance", "Maintainance procedure of the Siemens CT.");
             myWorkflowGraph.AddNode(procedure);
 
-            ProcedureStep submit = new ProcedureStep("Submit", "The CSE submit a maintain ticket.");
-            ProcedureStep ticketCheck = new ProcedureStep("Ticket Check", "The Interface check the ticket.");
-            ProcedureStep preAnalysis = new ProcedureStep("Pre-Analysis", "The SE pre-analysis the issue and assign to RP.");
-            ProcedureStep solve = new ProcedureStep("Solve", "The RP solve the issue.");
-            ProcedureStep evaluate = new ProcedureStep("Evaluate", "The SE evaluate the solution.");
-            ProcedureStep regression = new ProcedureStep("Regression", "The test center regression the soultion.");
-            ProcedureStep feedback = new ProcedureStep("Feedback", "The CSE give a Feedback to the customer.");
+            ProcedureStep submit = new ProcedureStep( ProcedureStepEunm.CreateStep.ToString(), "The CSE submit a maintain ticket.");
+            ProcedureStep ticketCheck = new ProcedureStep( ProcedureStepEunm.TicketCheck.ToString(), "The Interface check the ticket.");
+            ProcedureStep preAnalysis = new ProcedureStep( ProcedureStepEunm.PreAnalysis.ToString(), "The SE pre-analysis the issue and assign to RP.");
+            ProcedureStep solve = new ProcedureStep( ProcedureStepEunm.Solve.ToString(), "The RP solve the issue.");
+            ProcedureStep evaluate = new ProcedureStep( ProcedureStepEunm.Evaluate.ToString(), "The SE evaluate the solution.");
+            ProcedureStep regression = new ProcedureStep( ProcedureStepEunm.Regression.ToString(), "The test center regression the soultion.");
+            ProcedureStep feedback = new ProcedureStep( ProcedureStepEunm.Feedback.ToString(), "The CSE give a Feedback to the customer.");
 
             procedureSteps.Add(submit);
             procedureSteps.Add(ticketCheck);
@@ -104,12 +135,12 @@ namespace Argus.Backend
             List<UserGroup> userGroups =
                 new List<UserGroup> {BuildCSEGroup(), BuildInterfaceGroup(), BuildRDGroup(), BuildTestGroup()};
 
-            User gmLeader = new User("Sanders ", "Siemens Healthineer");
+            User gmLeader = new User("Sanders", "Siemens Healthineer");
             myWorkflowGraph.AddNode(gmLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(gmLeader, leader, newEdge);
 
-            UserGroup group = new UserGroup("Healthineer", "Executive", "Siemens Healthineer");
+            UserGroup group = new UserGroup("Healthineer", GroupTypeEnum.Executive.ToString(), "Siemens Healthineer");
             myWorkflowGraph.AddNode(group);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, group, gmLeader, new List<User>(), userGroups);
@@ -124,7 +155,7 @@ namespace Argus.Backend
             //newEdge = new Incharge();
             //myWorkflowGraph.AddEdge(cseGroup, submit, newEdge);
 
-            Node ticketCheck = myWorkflowGraph.GetNodeByName("Ticket Check");
+            Node ticketCheck = myWorkflowGraph.GetNodeByName(ProcedureStepEunm.TicketCheck.ToString());
             Node interGroup = myWorkflowGraph.GetNodeByName("Interface");
             Edge newEdge = new HandleBy();
             myWorkflowGraph.AddEdge(ticketCheck, interGroup, newEdge);
@@ -132,7 +163,7 @@ namespace Argus.Backend
             myWorkflowGraph.AddEdge(interGroup, ticketCheck, newEdge);
 
 
-            Node preAnalysis = myWorkflowGraph.GetNodeByName("Pre-Analysis");
+            Node preAnalysis = myWorkflowGraph.GetNodeByName(ProcedureStepEunm.PreAnalysis.ToString());
             Node uiGroup = myWorkflowGraph.GetNodeByName("UI");
             newEdge = new HandleBy();
             myWorkflowGraph.AddEdge(preAnalysis, uiGroup, newEdge);
@@ -151,14 +182,14 @@ namespace Argus.Backend
             newEdge = new Incharge();
             myWorkflowGraph.AddEdge(imageGroup, preAnalysis, newEdge);
 
-            Node regression = myWorkflowGraph.GetNodeByName("Regression");
+            Node regression = myWorkflowGraph.GetNodeByName(ProcedureStepEunm.Regression.ToString());
             Node testGroup = myWorkflowGraph.GetNodeByName("Test Center");
             newEdge = new HandleBy();
             myWorkflowGraph.AddEdge(regression, testGroup, newEdge);
             newEdge = new Incharge();
             myWorkflowGraph.AddEdge(testGroup, regression, newEdge);
 
-            Node feedback = myWorkflowGraph.GetNodeByName("Feedback");
+            Node feedback = myWorkflowGraph.GetNodeByName(ProcedureStepEunm.Feedback.ToString());
             Node cseGroup = myWorkflowGraph.GetNodeByName("CSE");
             newEdge = new HandleBy();
             myWorkflowGraph.AddEdge(feedback, cseGroup, newEdge);
@@ -170,13 +201,13 @@ namespace Argus.Backend
         {
             List<User> users = new List<User>();
             
-            User cseLeader = new User("Alice ", "CSE Department");
+            User cseLeader = new User("Alice", "CSE Department");
             myWorkflowGraph.AddNode(cseLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(cseLeader, leader, newEdge);
 
-            users.Add(new User("Bob ", "CSE Department"));
-            users.Add(new User("Clare ", "CSE Department"));
+            users.Add(new User("Bob", "CSE Department"));
+            users.Add(new User("Clare", "CSE Department"));
 
             foreach (var curItem in users)
             {
@@ -185,7 +216,7 @@ namespace Argus.Backend
                 myWorkflowGraph.AddEdge(curItem, employee, newEdge);
             }
 
-            UserGroup cseGroup = new UserGroup("CSE", "Executive", "CSE Team" );
+            UserGroup cseGroup = new UserGroup("CSE", GroupTypeEnum.Executive.ToString(), "CSE Team" );
             myWorkflowGraph.AddNode(cseGroup);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, cseGroup, cseLeader, users);
@@ -196,12 +227,12 @@ namespace Argus.Backend
         {
             List<User> users = new List<User>();
 
-            User interLeader = new User("Dave ", "Interface");
+            User interLeader = new User("Dave", "Interface");
             myWorkflowGraph.AddNode(interLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(interLeader, leader, newEdge);
 
-            UserGroup interGroup = new UserGroup("Interface", "Executive", "Interface Team");
+            UserGroup interGroup = new UserGroup("Interface", GroupTypeEnum.Executive.ToString(), "Interface Team");
             myWorkflowGraph.AddNode(interGroup);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, interGroup, interLeader, users);
@@ -212,12 +243,12 @@ namespace Argus.Backend
         {
             List<UserGroup> userGroups = new List<UserGroup> {BuildUIGroup(), BuildExamGroup(), BuildImageGroup()};
 
-            User rdLeader = new User("Rafael ", "RD Department");
+            User rdLeader = new User("Rafael", "RD Department");
             myWorkflowGraph.AddNode(rdLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(rdLeader, leader, newEdge);
 
-            UserGroup group = new UserGroup("RD", "Executive", "RD Department");
+            UserGroup group = new UserGroup("RD", GroupTypeEnum.Executive.ToString(), "RD Department");
             myWorkflowGraph.AddNode(group);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, group, rdLeader, new List<User>(), userGroups);
@@ -228,13 +259,13 @@ namespace Argus.Backend
         {
             List<User> users = new List<User>();
 
-            User uiLeader = new User("Emilia ", "UI Team");
+            User uiLeader = new User("Emilia", "UI Team");
             myWorkflowGraph.AddNode(uiLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(uiLeader, leader, newEdge);
 
-            users.Add(new User("Florence ", "UI Team"));
-            users.Add(new User("Grant ", "UI Team"));
+            users.Add(new User("Florence", "UI Team"));
+            users.Add(new User("Grant", "UI Team"));
 
             foreach (var curItem in users)
             {
@@ -243,7 +274,7 @@ namespace Argus.Backend
                 myWorkflowGraph.AddEdge(curItem, employee, newEdge);
             }
 
-            UserGroup group = new UserGroup("UI", "Executive", "UI Team");
+            UserGroup group = new UserGroup("UI", GroupTypeEnum.Executive.ToString(), "UI Team");
             myWorkflowGraph.AddNode(group);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, group, uiLeader, users);
@@ -254,13 +285,13 @@ namespace Argus.Backend
         {
             List<User> users = new List<User>();
 
-            User examLeader = new User("Haden ", "Exam Team");
+            User examLeader = new User("Haden", "Exam Team");
             myWorkflowGraph.AddNode(examLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(examLeader, leader, newEdge);
 
-            users.Add(new User("Isaac ", "Exam Team"));
-            users.Add(new User("Jackson ", "Exam Team"));
+            users.Add(new User("Isaac", "Exam Team"));
+            users.Add(new User("Jackson", "Exam Team"));
 
             foreach (var curItem in users)
             {
@@ -269,7 +300,7 @@ namespace Argus.Backend
                 myWorkflowGraph.AddEdge(curItem, employee, newEdge);
             }
 
-            UserGroup group = new UserGroup("Exam", "Executive", "Exam Team");
+            UserGroup group = new UserGroup("Exam", GroupTypeEnum.Executive.ToString(), "Exam Team");
             myWorkflowGraph.AddNode(group);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, group, examLeader, users);
@@ -280,13 +311,13 @@ namespace Argus.Backend
         {
             List<User> users = new List<User>();
 
-            User imageLeader = new User("Kimi ", "Imaging Team");
+            User imageLeader = new User("Kimi", "Imaging Team");
             myWorkflowGraph.AddNode(imageLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(imageLeader, leader, newEdge);
 
-            users.Add(new User("Lacy ", "Imaging Team"));
-            users.Add(new User("Michael ", "Imaging Team"));
+            users.Add(new User("Lacy", "Imaging Team"));
+            users.Add(new User("Michael", "Imaging Team"));
 
             foreach (var curItem in users)
             {
@@ -295,7 +326,7 @@ namespace Argus.Backend
                 myWorkflowGraph.AddEdge(curItem, employee, newEdge);
             }
 
-            UserGroup group = new UserGroup("Imaging", "Executive", "Imaging Team");
+            UserGroup group = new UserGroup("Imaging", GroupTypeEnum.Executive.ToString(), "Imaging Team");
             myWorkflowGraph.AddNode(group);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, group, imageLeader, users);
@@ -306,14 +337,14 @@ namespace Argus.Backend
         {
             List<User> users = new List<User>();
 
-            User testLeader = new User("Nina ", "Test Center");
+            User testLeader = new User("Nina", "Test Center");
             myWorkflowGraph.AddNode(testLeader);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(testLeader, leader, newEdge);
 
-            users.Add(new User("Oakley ", "Test Center"));
-            users.Add(new User("Pol ", "Test Center"));
-            users.Add(new User("Queen ", "Test Center"));
+            users.Add(new User("Oakley", "Test Center"));
+            users.Add(new User("Pol", "Test Center"));
+            users.Add(new User("Queen", "Test Center"));
 
             foreach (var curItem in users)
             {
@@ -322,7 +353,7 @@ namespace Argus.Backend
                 myWorkflowGraph.AddEdge(curItem, employee, newEdge);
             }
 
-            UserGroup group = new UserGroup("Test Center", "Executive", "Test Center");
+            UserGroup group = new UserGroup("Test Center", GroupTypeEnum.Executive.ToString(), "Test Center");
             myWorkflowGraph.AddNode(group);
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, group, testLeader, users);

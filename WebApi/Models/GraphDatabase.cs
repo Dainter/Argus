@@ -28,9 +28,15 @@ namespace WebApi.Models
         }
 
         /// <summary/>
-        public IEnumerable<string> GetUsers()
+        public IEnumerable<User> GetUsers()
         {
             return DataStorage.GetStorage().GetUsers(Properties.Settings.Default.WorkflowDBName);
+        }
+
+        /// <summary/>
+        public IEnumerable<UserGroup> GetUserGroups()
+        {
+            return DataStorage.GetStorage().GetUserGroups(Properties.Settings.Default.WorkflowDBName);
         }
 
         /// <summary/>

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Xml;
+using Argus.Backend.Model.Edges;
+using Argus.Backend.Utility;
+using GraphDB.Contract.Enum;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
-using GraphDB.Utility;
 
 namespace Argus.Backend.Model.Nodes
 {
@@ -14,6 +18,10 @@ namespace Argus.Backend.Model.Nodes
 
         [XmlSerializable]
         public string Department { get; private set; }
+
+        public Role Role => GetRole();
+
+        public IEnumerable<UserGroup> UserGroups =>GetUserGroups();
 
         [XmlSerializable]
         public string MailBox { get; private set; }
@@ -58,6 +66,28 @@ namespace Argus.Backend.Model.Nodes
             {
                 throw new DataException(GetType().Name + ":" + Name + "'s data is invalid, please check the DB.");
             }
+        }
+
+        private Role GetRole()
+        {
+            var roles = GetEdgesByType(new List<Type> { typeof(As) }, EdgeDirection.Out);
+
+            if( roles == null || !roles.Any() )
+            {
+                return new Role("Unknown", 10000, "Unknown");
+            }
+            return roles.First().To as Role;
+        }
+
+        private IEnumerable<UserGroup> GetUserGroups()
+        {
+            var groups = GetEdgesByType(new List<Type> { typeof(Lead) , typeof(BelongTo) }, EdgeDirection.Out);
+
+            if (groups == null || !groups.Any())
+            {
+                return new List<UserGroup>();
+            }
+            return groups.Select( x => x.To as UserGroup);
         }
     }
 }
