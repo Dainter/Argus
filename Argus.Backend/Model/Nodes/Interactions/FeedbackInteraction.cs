@@ -7,26 +7,26 @@ using GraphDB.Contract.Serial;
 
 namespace Argus.Backend.Model.Nodes.Interactions
 {
-    public class TicketCheckInteraction : AbstractInteraction
+    public class FeedbackInteraction : AbstractInteraction
     {
         [XmlSerializable]
-        public string AnalysisResult { get; set; }
+        public string FixPlan { get; set; }
 
         [XmlSerializable]
-        public string Suggestion { get; set; }
+        public string Feedback { get; set; }
 
-        public TicketCheckInteraction( string handler ):base (ProcedureStepEunm.TicketCheck.ToString(), handler)
+        public FeedbackInteraction(string handler) : base(ProcedureStepEunm.Feedback.ToString(), handler)
         {
-            AnalysisResult = "";
-            Suggestion = "";
+            FixPlan = "";
+            Feedback = "";
         }
 
-        public TicketCheckInteraction(XmlElement xNode):base(xNode)
+        public FeedbackInteraction(XmlElement xNode) : base(xNode)
         {
             try
             {
-                AnalysisResult = xNode.GetText("AnalysisResult");
-                Suggestion = xNode.GetText("Suggestion");
+                FixPlan = xNode.GetText("FixPlan");
+                Feedback = xNode.GetText("Feedback");
             }
             catch (Exception)
             {

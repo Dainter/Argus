@@ -100,6 +100,11 @@
     <Compile Include="Model\Edges\Next.cs" />
     <Compile Include="Model\Edges\Previous.cs" />
     <Compile Include="Model\Nodes\FaultInfo.cs" />
+    <Compile Include="Model\Nodes\Interactions\EvaluateInteraction.cs" />
+    <Compile Include="Model\Nodes\Interactions\FeedbackInteraction.cs" />
+    <Compile Include="Model\Nodes\Interactions\PreAnalysisInteraction.cs" />
+    <Compile Include="Model\Nodes\Interactions\RegressionInteraction.cs" />
+    <Compile Include="Model\Nodes\Interactions\SolveInteraction.cs" />
     <Compile Include="Model\Nodes\Interactions\TicketCheckInteraction.cs" />
     <Compile Include="Model\Nodes\Interactions\AbstractInteraction.cs" />
     <Compile Include="Model\Nodes\Procedure.cs" />

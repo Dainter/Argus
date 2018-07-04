@@ -27,7 +27,7 @@ namespace Argus
             GraphConstructor graphConstructor =
                 new GraphConstructor(Properties.Settings.Default.WorkflowDBPath,
                     Directory.GetCurrentDirectory());
-            //graphConstructor.CreateGraph();
+            graphConstructor.CreateGraph();
             //var users = DataStorage.GetStorage().GetUsers("Workflow");
             ConfigWindow configWindow = new ConfigWindow(Properties.Settings.Default.WorkflowDBPath, Directory.GetCurrentDirectory());
             configWindow.ShowDialog();

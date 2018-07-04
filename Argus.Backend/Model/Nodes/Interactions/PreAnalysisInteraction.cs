@@ -7,7 +7,7 @@ using GraphDB.Contract.Serial;
 
 namespace Argus.Backend.Model.Nodes.Interactions
 {
-    public class TicketCheckInteraction : AbstractInteraction
+    public class PreAnalysisInteraction : AbstractInteraction
     {
         [XmlSerializable]
         public string AnalysisResult { get; set; }
@@ -15,13 +15,13 @@ namespace Argus.Backend.Model.Nodes.Interactions
         [XmlSerializable]
         public string Suggestion { get; set; }
 
-        public TicketCheckInteraction( string handler ):base (ProcedureStepEunm.TicketCheck.ToString(), handler)
+        public PreAnalysisInteraction( string handler ) : base(ProcedureStepEunm.PreAnalysis.ToString(), handler)
         {
             AnalysisResult = "";
             Suggestion = "";
         }
 
-        public TicketCheckInteraction(XmlElement xNode):base(xNode)
+        public PreAnalysisInteraction(XmlElement xNode) : base(xNode)
         {
             try
             {

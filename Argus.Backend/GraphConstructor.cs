@@ -36,26 +36,24 @@ namespace Argus.Backend
 
         private void BuildTask()
         {
-            
-            FaultInfo faultInfo = new FaultInfo( "111210", "VC50", DateTime.Now, DateTime.Now );
-            Task newTask = new Task("100101", "Moodlight can not work when first start it", "Moodlight can not work when first start it", faultInfo, 3);
+            //FaultInfo faultInfo = new FaultInfo( "111210", "VC50", DateTime.Now, DateTime.Now );
+            //Task newTask = new Task("100101", "Moodlight can not work when first start it", "Moodlight can not work when first start it", faultInfo, 3);
+
+            //AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            //newTask.AddInteraction(newInteraction);
+            //TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Bob", "Dave", ProcedureStepEunm.TicketCheck.ToString());
+
+            FaultInfo faultInfo = new FaultInfo("131456", "VC40", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100102", "Moodlight can not work when first start it", "Moodlight can not work when first start it", faultInfo, 3);
 
             AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
-            if (newInteraction == null)
-            {
-                throw new DataException();
-            }
-
             newTask.AddInteraction(newInteraction);
-            try
-            {
-                TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Bob", "Dave", ProcedureStepEunm.TicketCheck.ToString());
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Isaac", ProcedureStepEunm.Solve.ToString());
 
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
             return;
         }
 
