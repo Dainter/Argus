@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Web;
 using Argus.Backend;
-using Argus.Backend.Model.Nodes;
 
 namespace WebApi.Models
 {
@@ -28,24 +25,9 @@ namespace WebApi.Models
         }
 
         /// <summary/>
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<T> GetAll<T>()
         {
-            return DataStorage.GetStorage().GetUsers(Properties.Settings.Default.WorkflowDBName);
+            return DataStorage.GetStorage().GetAll<T>(Properties.Settings.Default.WorkflowDBName);
         }
-
-        /// <summary/>
-        public IEnumerable<UserGroup> GetUserGroups()
-        {
-            return DataStorage.GetStorage().GetUserGroups(Properties.Settings.Default.WorkflowDBName);
-        }
-
-        /// <summary/>
-        public IEnumerable<ProcedureStep> GetProcedureSteps()
-        {
-            
-            return DataStorage.GetStorage().GetAll<ProcedureStep>(Properties.Settings.Default.WorkflowDBName) as IEnumerable<ProcedureStep>;
-        }
-
-
     }
 }

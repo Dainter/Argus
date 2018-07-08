@@ -1,6 +1,4 @@
 ﻿using Argus.Backend.Model.Nodes;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace WebApi.Models
 {
@@ -16,7 +14,7 @@ namespace WebApi.Models
         /// <summary/>
         public string Email { get; }
         /// <summary/>
-        public IEnumerable<string> UserGroups { get; }
+        public string Password { get; }
 
         /// <summary/>
         public UserViewModel( User user)
@@ -25,7 +23,7 @@ namespace WebApi.Models
             Department = user.Department;
             Role = user.Role.Name;
             Email = user.MailBox;
-            UserGroups = user.UserGroups.Select( x => x.Name);
+            Password = user.Password;
         }
     }
 }

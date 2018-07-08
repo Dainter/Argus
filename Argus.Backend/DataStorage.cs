@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Argus.Backend.Model.Nodes;
 using GraphDB.Core;
 
 namespace Argus.Backend
@@ -49,7 +48,7 @@ namespace Argus.Backend
             return curGraph;
         }
 
-        public IEnumerable GetAll<T>(string name)
+        public IEnumerable<T> GetAll<T>(string name)
         {
             if (name == null || !myGraphs.ContainsKey(name))
             {
@@ -63,18 +62,5 @@ namespace Argus.Backend
 
             return curGraph.GetNodesByType(typeof(T)).Cast<T>();
         }
-
-        public IEnumerable<User> GetUsers(string dbName)
-        {
-            Graph curGraph = GetGraph(dbName);
-            return curGraph.GetNodesByType(typeof(User)).Select(x => x as User);
-        }
-
-        public IEnumerable<UserGroup> GetUserGroups(string dbName)
-        {
-            Graph curGraph = GetGraph(dbName);
-            return curGraph.GetNodesByType(typeof(UserGroup)).Select(x => x as UserGroup);
-        }
-
     }
 }

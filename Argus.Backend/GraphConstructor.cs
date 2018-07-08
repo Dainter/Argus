@@ -25,38 +25,16 @@ namespace Argus.Backend
 
         public void CreateGraph()
         {
-            //BuildRole();
-            //BuildProcedure();
-            //BuildUserGroup();
-            //BindingProcedureAndUserGroup();
+            BuildRole();
+            BuildProcedure();
+            BuildUserGroup();
+            BindingProcedureAndUserGroup();
             BuildTask();
             myWorkflowGraph.SaveDataBase();
 
         }
 
-        private void BuildTask()
-        {
-            //FaultInfo faultInfo = new FaultInfo( "111210", "VC50", DateTime.Now, DateTime.Now );
-            //Task newTask = new Task("100101", "Moodlight can not work when first start it", "Moodlight can not work when first start it", faultInfo, 3);
-
-            //AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
-            //newTask.AddInteraction(newInteraction);
-            //TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Bob", "Dave", ProcedureStepEunm.TicketCheck.ToString());
-
-            FaultInfo faultInfo = new FaultInfo("131456", "VC40", DateTime.Now, DateTime.Now);
-            Task newTask = new Task("100102", "Moodlight can not work when first start it", "Moodlight can not work when first start it", faultInfo, 3);
-
-            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
-            newTask.AddInteraction(newInteraction);
-            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
-            newTask.AddInteraction(newInteraction);
-            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
-            newTask.AddInteraction(newInteraction);
-            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Isaac", ProcedureStepEunm.Solve.ToString());
-
-            return;
-        }
-
+        
         private void BuildRole()
         {
             admin = new Role(RoleEnum.Administrator.ToString(), 0, "Administrator privilege.");
@@ -66,7 +44,7 @@ namespace Argus.Backend
             employee = new Role(RoleEnum.Empolyee.ToString(), 100, "Employee privilege.");
             myWorkflowGraph.AddNode(employee);
 
-            User dainter = new User("Dainter ", "Siemens Ltd. China");
+            User dainter = new User("Dainter", "Siemens Ltd. China");
             myWorkflowGraph.AddNode(dainter);
             Edge newEdge = new As();
             myWorkflowGraph.AddEdge(dainter, admin, newEdge);
@@ -356,6 +334,82 @@ namespace Argus.Backend
 
             UserGroupBuilder.BuildUserGroup(myWorkflowGraph, group, testLeader, users);
             return group;
+        }
+
+        private void BuildTask()
+        {
+            BuildTask1();
+            BuildTask2();
+            BuildTask3();
+            BuildTask4();
+            BuildTask5();
+            return;
+        }
+
+        private void BuildTask1()
+        {
+            FaultInfo faultInfo = new FaultInfo("111210", "VC50", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100101", "Moodlight can not work when first start it", "Moodlight can not work when first start it", faultInfo, 3);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Bob", "Dave", ProcedureStepEunm.TicketCheck.ToString());
+        }
+
+        private void BuildTask2()
+        {
+            FaultInfo faultInfo = new FaultInfo("131456", "VC40", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100102", "The warning message is not cleared when delete the warning range.", "The warning message is not cleared when delete the warning range.", faultInfo, 3);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Isaac", ProcedureStepEunm.Solve.ToString());
+        }
+
+        private void BuildTask3()
+        {
+            FaultInfo faultInfo = new FaultInfo("123456", "VC40", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100103", "Tilted table position line on tablet differs from ICS", "Tilted table position line on tablet differs from ICS", faultInfo, 3);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Isaac", ProcedureStepEunm.Solve.ToString());
+        }
+
+        private void BuildTask4()
+        {
+            FaultInfo faultInfo = new FaultInfo("123556", "VC40", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100104", "ECG lost message can not be cleared.", "ECG lost message can not be cleared.", faultInfo, 2);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Isaac", ProcedureStepEunm.Solve.ToString());
+        }
+
+        private void BuildTask5()
+        {
+            FaultInfo faultInfo = new FaultInfo("123656", "VC40", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100105", "Somewords transient during scaning", "Somewords transient during scaning.", faultInfo, 3);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Isaac", ProcedureStepEunm.Solve.ToString());
         }
     }
 }

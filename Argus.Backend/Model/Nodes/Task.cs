@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
+using Argus.Backend.Model.Edges;
 using Argus.Backend.Model.Nodes.Interactions;
 using Argus.Backend.Utility;
+using GraphDB.Contract.Enum;
 using GraphDB.Contract.Serial;
 using GraphDB.Core;
 
@@ -53,6 +56,12 @@ namespace Argus.Backend.Model.Nodes
             get => myFaultEndTime.ToString(CurCultureInfo);
             private set => myFaultEndTime = Convert.ToDateTime(value, CurCultureInfo);
         }
+
+        [XmlSerializable]
+        public User Submitter => GetSubmitter();
+
+        [XmlSerializable]
+        public User Handler => GetHandler();
 
         [XmlSerializable]
         [XmlEnumerable]
@@ -139,6 +148,26 @@ namespace Argus.Backend.Model.Nodes
                 return;
             }
             myInteractions.Add(newInteraction);
+        }
+
+        public User GetSubmitter()
+        {
+            var users = GetEdgesByType(new List<Type> { typeof(CreateBy) }, EdgeDirection.Out);
+            if (users == null || !users.Any())
+            {
+                return new User("", "");
+            }
+            return users.First().To as User;
+        }
+
+        public User GetHandler()
+        {
+            var users = GetEdgesByType(new List<Type> { typeof(AssignTo) }, EdgeDirection.Out);
+            if (users == null || !users.Any())
+            {
+                return new User("", "");
+            }
+            return users.First().To as User;
         }
 
         public XmlNode GetSerialInteractions()

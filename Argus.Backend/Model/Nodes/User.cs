@@ -29,11 +29,15 @@ namespace Argus.Backend.Model.Nodes
         [XmlSerializable]
         public string Password { get; set; }
 
+        public IEnumerable<Task> SubmitTasks => GetSubmitTasks();
+
+        public IEnumerable<Task> HandleTasks => GetHandleTasks();
+
         public User(string name, string department) : base(name)
         {
             Department = department;
-            MailBox = "";
-            Password = "";
+            MailBox = name.ToLower() + "@siemens.com";
+            Password = "123456";
         }
 
         public User(Node oriNode) : base(oriNode)
@@ -88,6 +92,28 @@ namespace Argus.Backend.Model.Nodes
                 return new List<UserGroup>();
             }
             return groups.Select( x => x.To as UserGroup);
+        }
+
+        private IEnumerable<Task> GetSubmitTasks()
+        {
+            var tasks = GetEdgesByType(new List<Type> { typeof(Create) }, EdgeDirection.Out);
+
+            if (tasks == null || !tasks.Any())
+            {
+                return new List<Task>();
+            }
+            return tasks.Select(x => x.To as Task);
+        }
+
+        private IEnumerable<Task> GetHandleTasks()
+        {
+            var tasks = GetEdgesByType(new List<Type> { typeof(Assigned) }, EdgeDirection.Out);
+
+            if (tasks == null || !tasks.Any())
+            {
+                return new List<Task>();
+            }
+            return tasks.Select(x => x.To as Task);
         }
     }
 }
