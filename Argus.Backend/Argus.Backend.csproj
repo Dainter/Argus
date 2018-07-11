@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -71,6 +74,7 @@
     <Compile Include="GraphDB\Core\Edge.cs" />
     <Compile Include="GraphDB\Core\Graph.cs" />
     <Compile Include="GraphDB\Core\Node.cs" />
+    <Compile Include="GraphDB\IO\JsonStrategy.cs" />
     <Compile Include="GraphDB\IO\XMLStrategy.cs" />
     <Compile Include="GraphDB\Tool\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
@@ -186,7 +190,9 @@
     <Resource Include="GraphDB\Tool\images\siemens_logo_32.png" />
     <Resource Include="GraphDB\Tool\images\SmartTaskChain.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

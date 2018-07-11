@@ -10,7 +10,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     /// <summary/>
-    public class HandleTaskInfoController : ApiController
+    public class HandleTasksController : ApiController
     {
         // GET api/<controller>
         //public IEnumerable<string> Get()
@@ -28,8 +28,8 @@ namespace WebApi.Controllers
                 return Json(new List<TaskInfoViewModel>());
             }
             IEnumerable<TaskInfoViewModel> tasks = curUser.First().HandleTasks.Select(x => new TaskInfoViewModel(x));
-
-            return Json(tasks);
+            IEnumerable<TaskViewModel> myTasks = curUser.First().HandleTasks.Select(x => new TaskViewModel(x));
+            return Json(myTasks);
         }
 
         // POST api/<controller>

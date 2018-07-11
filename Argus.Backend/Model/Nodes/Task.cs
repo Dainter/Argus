@@ -57,10 +57,8 @@ namespace Argus.Backend.Model.Nodes
             private set => myFaultEndTime = Convert.ToDateTime(value, CurCultureInfo);
         }
 
-        [XmlSerializable]
         public User Submitter => GetSubmitter();
 
-        [XmlSerializable]
         public User Handler => GetHandler();
 
         [XmlSerializable]

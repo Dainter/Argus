@@ -10,7 +10,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     /// <summary/>
-    public class SubmitTaskInfoController : ApiController
+    public class SubmitTasksController : ApiController
     {
         // GET api/<controller>
         //public IHttpActionResult Get()

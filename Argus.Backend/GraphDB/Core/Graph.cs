@@ -95,6 +95,13 @@ namespace GraphDB.Core
             newIohandler.SaveFile(doc);
         }
 
+        public void SaveAsJson(string newPath)
+        {
+            IIoStrategy newIohandler = new JsonStrategy(newPath);
+            XmlDocument doc = ToXML();
+            newIohandler.SaveFile(doc);
+        }
+
         //将数据保存为XML文件（接口）
         public XmlDocument ToXML()
         {
@@ -123,7 +130,6 @@ namespace GraphDB.Core
             doc.AppendChild(root);
             return doc;
         }
-
 
         #region Query
         //查询函数，返回节点列表中指定名称的节点

@@ -33,17 +33,23 @@ namespace Argus.Backend
             myGraphs.Add(name, newGraph);
         }
 
+        public void SaveAsJson(string name, string path)
+        {
+            Graph graph = GetGraph(name);
+            if (graph == null)
+            {
+                throw new ArgumentException("The name of database is invalid.");
+            }
+            graph.SaveAsJson(path);
+        }
+
         private Graph GetGraph(string dbName)
         {
             if (dbName == null || !myGraphs.ContainsKey(dbName))
             {
-                throw new ArgumentException("The name of database is invalid.");
+                return null;
             }
             Graph curGraph = myGraphs[dbName];
-            if (curGraph == null)
-            {
-                throw new DataException("The database' is invalid, please check the initialization.");
-            }
 
             return curGraph;
         }
