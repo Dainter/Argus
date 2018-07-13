@@ -28,8 +28,8 @@ namespace Argus
             //    new GraphConstructor(Properties.Settings.Default.WorkflowDBPath,
             //        Directory.GetCurrentDirectory());
             //graphConstructor.CreateGraph();
-            DataStorage.GetStorage().SaveAsJson("Workflow", @"C:\Users\z003hkns\Desktop\Workflow.json");
-            
+            //DataStorage.GetStorage().SaveAsJson("Workflow", @"C:\Users\z003hkns\Desktop\Workflow.json");
+
             //var users = DataStorage.GetStorage().GetUsers("Workflow");
             ConfigWindow configWindow = new ConfigWindow(Properties.Settings.Default.WorkflowDBPath, Directory.GetCurrentDirectory());
             configWindow.ShowDialog();

@@ -23,13 +23,12 @@ namespace WebApi.Controllers
         public IHttpActionResult Get(string name)
         {
             var curUser = GraphDatabase.GetDatabase().GetAll<User>().Where(x => x.Name == name);
-            if (curUser.Count() <= 0)
+            if (!curUser.Any())
             {
-                return Json(new List<TaskInfoViewModel>());
+                return Json(new List<TaskViewModel>());
             }
-            IEnumerable<TaskInfoViewModel> tasks = curUser.First().HandleTasks.Select(x => new TaskInfoViewModel(x));
-            IEnumerable<TaskViewModel> myTasks = curUser.First().HandleTasks.Select(x => new TaskViewModel(x));
-            return Json(myTasks);
+            IEnumerable<TaskViewModel> tasks = curUser.First().HandleTasks.Select(x => new TaskViewModel(x));
+            return Json(tasks);
         }
 
         // POST api/<controller>

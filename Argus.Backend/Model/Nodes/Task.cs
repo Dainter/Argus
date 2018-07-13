@@ -44,6 +44,9 @@ namespace Argus.Backend.Model.Nodes
         public string Version { get; }
 
         [XmlSerializable]
+        public string CreateOn { get; }
+
+        [XmlSerializable]
         public string StartTime
         {
             get => myFaultStartTime.ToString(CurCultureInfo);
@@ -71,6 +74,7 @@ namespace Argus.Backend.Model.Nodes
         {
             Title = title;
             Description = description;
+            CreateOn = DateTime.Now.ToString(CurCultureInfo);
 
             DeviceId = faultInfo.DeviceId;
             Version = faultInfo.Version;
@@ -97,6 +101,7 @@ namespace Argus.Backend.Model.Nodes
 
             Title = newNode.Title;
             Description = newNode.Description;
+            CreateOn = newNode.CreateOn;
 
             DeviceId = newNode.DeviceId;
             Version = newNode.Version;
@@ -114,6 +119,7 @@ namespace Argus.Backend.Model.Nodes
             {
                 Title = xNode.GetText("Title");
                 Description = xNode.GetText("Description");
+                CreateOn = xNode.GetText("CreateOn");
 
                 DeviceId = xNode.GetText("DeviceId");
                 Version = xNode.GetText("Version");

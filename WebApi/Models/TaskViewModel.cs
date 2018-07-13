@@ -22,6 +22,8 @@ namespace WebApi.Models
         /// <summary/>
         public int Priority { get; }
         /// <summary/>
+        public string CreateOn { get; }
+        /// <summary/>
         public string CreateBy { get; }
         /// <summary/>
         public string AssignTo { get; }
@@ -44,6 +46,7 @@ namespace WebApi.Models
             Description = curTask.Description;
             Priority = curTask.Priority;
             Version = curTask.Version;
+            CreateOn = curTask.CreateOn;
             CreateBy = curTask.Submitter.Name;
             AssignTo = curTask.Handler.Name;
             DeviceId = curTask.DeviceId;
@@ -63,6 +66,15 @@ namespace WebApi.Models
                         break;
                     case "SolveInteraction":
                         interactionViewModel = new SolveViewModel(curItem as SolveInteraction);
+                        break;
+                    case "EvaluateInteraction":
+                        interactionViewModel = new EvaluateViewModel(curItem as EvaluateInteraction);
+                        break;
+                    case "RegressionInteraction":
+                        interactionViewModel = new RegressionViewModel(curItem as RegressionInteraction);
+                        break;
+                    case "FeedbackInteraction":
+                        interactionViewModel = new FeedbackViewModel(curItem as FeedbackInteraction);
                         break;
                     default:
                         continue;

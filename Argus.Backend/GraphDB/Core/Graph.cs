@@ -279,7 +279,7 @@ namespace GraphDB.Core
             //检查节点是否已经存在“名称一致”
             if (ContainsNode(newNode))
             {
-                throw new ArgumentException("Node named:" + newNode.Name + "is already exists.");
+                throw new ArgumentException("Node named: " + newNode.Name + "is already exists.");
             }
 
             AddNodeIntoGraph(newNode);

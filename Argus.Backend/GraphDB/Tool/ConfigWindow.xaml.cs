@@ -507,7 +507,14 @@ namespace GraphDB.Tool
                 {
                     neibourNodes.Add(edge.To);
                     drawNodes.Add(edge.To);
-                    mySubGraph.AddNode(new Node(edge.To));
+                    try
+                    {
+                        mySubGraph.AddNode(new Node(edge.To));
+                    }
+                    catch (ArgumentException e)
+                    {
+                        continue;
+                    }
                     Edge newEdge = new Edge(edge.Attribute);
                     mySubGraph.AddEdgeByGuid(curSelNode.Guid, edge.To.Guid, newEdge);
                 }

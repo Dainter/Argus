@@ -194,7 +194,10 @@
     </Compile>
     <Compile Include="Models\GraphDatabase.cs" />
     <Compile Include="Models\Interactions\AbstractInteractionViewModel.cs" />
+    <Compile Include="Models\Interactions\EvaluateViewModel.cs" />
+    <Compile Include="Models\Interactions\FeedbackViewModel.cs" />
     <Compile Include="Models\Interactions\PreAnalysisViewModel.cs" />
+    <Compile Include="Models\Interactions\RegressionViewModel.cs" />
     <Compile Include="Models\Interactions\SolveViewModel.cs" />
     <Compile Include="Models\Interactions\TicketCheckViewModel.cs" />
     <Compile Include="Models\TaskInfoViewModel.cs" />

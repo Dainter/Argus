@@ -25,11 +25,11 @@ namespace Argus.Backend
 
         public void CreateGraph()
         {
-            BuildRole();
-            BuildProcedure();
-            BuildUserGroup();
-            BindingProcedureAndUserGroup();
-            BuildTask();
+            //BuildRole();
+            //BuildProcedure();
+            //BuildUserGroup();
+            //BindingProcedureAndUserGroup();
+            //BuildTask();
             myWorkflowGraph.SaveDataBase();
 
         }
@@ -338,11 +338,13 @@ namespace Argus.Backend
 
         private void BuildTask()
         {
-            BuildTask1();
-            BuildTask2();
-            BuildTask3();
-            BuildTask4();
-            BuildTask5();
+            //BuildTask1();
+            //BuildTask2();
+            //BuildTask3();
+            //BuildTask4();
+            //BuildTask5();
+            BuildTask6();
+            BuildTask7();
             return;
         }
 
@@ -410,6 +412,46 @@ namespace Argus.Backend
             newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
             newTask.AddInteraction(newInteraction);
             TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Isaac", ProcedureStepEunm.Solve.ToString());
+        }
+
+        private void BuildTask6()
+        {
+            FaultInfo faultInfo = new FaultInfo("133672", "VC40", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100106", "Wrong screen is displayed during general workflow", "Wrong screen is displayed during general workflow.", faultInfo, 1);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Jackson");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Evaluate, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Regression, "Pol");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Feedback, "Clare");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Clare", ProcedureStepEunm.Feedback.ToString());
+        }
+
+        private void BuildTask7()
+        {
+            FaultInfo faultInfo = new FaultInfo("213656", "VC50", DateTime.Now, DateTime.Now);
+            Task newTask = new Task("100107", "Exception pops up, by selecting the table position on TouchUI during start/close patient.", "Exception pops up, by selecting the table position on TouchUI during start/close patient..", faultInfo, 3);
+
+            AbstractInteraction newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.TicketCheck, "Dave");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.PreAnalysis, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Solve, "Isaac");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Evaluate, "Haden");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Regression, "Pol");
+            newTask.AddInteraction(newInteraction);
+            newInteraction = TaskBuilder.GetInteraction(ProcedureStepEunm.Feedback, "Clare");
+            newTask.AddInteraction(newInteraction);
+            TaskBuilder.BuildTask(myWorkflowGraph, newTask, "Clare", "Clare", ProcedureStepEunm.Feedback.ToString());
         }
     }
 }
