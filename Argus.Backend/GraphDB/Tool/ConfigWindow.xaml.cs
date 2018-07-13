@@ -511,7 +511,7 @@ namespace GraphDB.Tool
                     {
                         mySubGraph.AddNode(new Node(edge.To));
                     }
-                    catch (ArgumentException e)
+                    catch (ArgumentException)
                     {
                         continue;
                     }

@@ -186,6 +186,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HandleTasksController.cs" />
+    <Compile Include="Controllers\HistoryTasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SubmitTasksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
