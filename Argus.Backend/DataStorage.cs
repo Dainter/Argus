@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using GraphDB.Core;
-using GraphDB.Utility.JSON;
-using Newtonsoft.Json;
 
 namespace Argus.Backend
 {
@@ -33,17 +30,6 @@ namespace Argus.Backend
             }
             var newGraph = new Graph(name, dbPath, assemblyPath);
             myGraphs.Add(name, newGraph);
-        }
-
-        public string SaveAsJson(string name)
-        {
-            Graph graph = GetGraph(name);
-            if (graph == null)
-            {
-                throw new ArgumentException("The name of database is invalid.");
-            }
-            
-            return JsonConvert.SerializeObject(new GraphJson(graph));
         }
 
         public Graph GetGraph(string dbName)
