@@ -87,6 +87,9 @@
     <Compile Include="GraphDB\Tool\Layout\NodeDrawing.cs" />
     <Compile Include="GraphDB\Tool\UI_Resources\SystemConverter.cs" />
     <Compile Include="GraphDB\Utility\Configuration.cs" />
+    <Compile Include="GraphDB\Utility\JSON\EdgeJson.cs" />
+    <Compile Include="GraphDB\Utility\JSON\GraphJson.cs" />
+    <Compile Include="GraphDB\Utility\JSON\NodeJson.cs" />
     <Compile Include="GraphDB\Utility\SerializableHelper.cs" />
     <Compile Include="GraphDB\Utility\XmlElementExtension.cs" />
     <Compile Include="Model\Edges\As.cs" />

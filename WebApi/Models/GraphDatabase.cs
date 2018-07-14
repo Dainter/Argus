@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using Argus.Backend;
+using GraphDB.Core;
 
 namespace WebApi.Models
 {
@@ -28,6 +29,12 @@ namespace WebApi.Models
         public IEnumerable<T> GetAll<T>()
         {
             return DataStorage.GetStorage().GetAll<T>(Properties.Settings.Default.WorkflowDBName);
+        }
+
+        /// <summary/>
+        public Graph GetGraph(string name)
+        {
+            return DataStorage.GetStorage().GetGraph(name);
         }
     }
 }

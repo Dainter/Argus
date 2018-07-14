@@ -185,6 +185,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\GraphDBController.cs" />
     <Compile Include="Controllers\HandleTasksController.cs" />
     <Compile Include="Controllers\HistoryTasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -201,6 +202,9 @@
     <Compile Include="Models\Interactions\RegressionViewModel.cs" />
     <Compile Include="Models\Interactions\SolveViewModel.cs" />
     <Compile Include="Models\Interactions\TicketCheckViewModel.cs" />
+    <Compile Include="Models\JSON\EdgeJson.cs" />
+    <Compile Include="Models\JSON\GraphJson.cs" />
+    <Compile Include="Models\JSON\NodeJson.cs" />
     <Compile Include="Models\TaskInfoViewModel.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Models\UserGroupViewModel.cs" />
