@@ -20,7 +20,7 @@ namespace GraphDB.Utility
             List<Assembly> assemblies = new List<Assembly>();
             foreach (FileSystemInfo fileInfo in myDirectoryInfo.GetFileSystemInfos())
             {
-                if (!(fileInfo is FileInfo))
+                if (!(fileInfo is FileInfo) || fileInfo.Name.Contains("System") || fileInfo.Name.Contains("Microsoft"))
                 {
                     continue;
                 }
